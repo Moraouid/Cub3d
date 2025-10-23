@@ -3,11 +3,11 @@ CC = cc
 MLX = -L/usr/include/minilibx-linux -lmlx -lXext -lX11 
 GNL = includes/get_next_line/get_next_line.c includes/get_next_line/get_next_line_utils.c 
 CFLAGS = -Wall -Wextra -Werror
-SRCS = $(wildcard src/parsing/*.c)
+SRCS = src/cub3d.c $(wildcard src/parsing/*.c)
 
 OBJS = $(SRCS:.c=.o)
 
-all: printf $(NAME)
+all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(MLX) $(GNL) 

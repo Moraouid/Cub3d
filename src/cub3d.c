@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/10/23 23:42:15 by sel-abbo         ###   ########.fr       */
+/*   Created: 2025/10/23 23:23:45 by sel-abbo          #+#    #+#             */
+/*   Updated: 2025/10/23 23:23:45 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "../includes/parsing.h"
+#include <stdlib.h>
 
-#include "/usr/include/minilibx-linux/mlx.h"
-#include "./get_next_line/get_next_line.h"
-#include <unistd.h>
-
-#endif // CUB3D
+int	main(int ac, char **av)
+{
+	if (ac != 2)
+	{
+        write(2, "Error: usage ./cub3d path_map.cub\n", 35);
+		exit(1);
+	}
+}
