@@ -7,15 +7,20 @@ SRCS = src/cub3d.c $(wildcard src/parsing/*.c)
 
 OBJS = $(SRCS:.c=.o)
 
-all: $(NAME)
+all: libft $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(MLX) $(GNL) 
 
+libft:
+	$(MAKE) -C ./includes/libft
+
 clean:
+	$(MAKE) -C ./includes/libft clean
 	rm -f $(OBJS)
 
 fclean: clean
+	$(MAKE) -C ./includes/libft fclean
 	rm -f $(NAME)
 
 re: fclean all
