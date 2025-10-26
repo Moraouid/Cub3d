@@ -1,5 +1,5 @@
 NAME = cub3d
-CC = cc
+CC = cc -g
 MLX = -L/usr/include/minilibx-linux -lmlx -lXext -lX11 
 GNL = includes/get_next_line/get_next_line.c includes/get_next_line/get_next_line_utils.c 
 CFLAGS = -Wall -Wextra -Werror

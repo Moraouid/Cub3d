@@ -22,13 +22,15 @@
 
 typedef struct s_map
 {
+    char    **map;
+
 	char	*no_path;
 	char	*so_path;
 	char	*we_path;
 	char	*ea_path;
 
-	int		floor_color;
-	int		ceiling_color;
+	int		f_color;
+	int		c_color;
 
 	char	**grid;
 	int		width;
