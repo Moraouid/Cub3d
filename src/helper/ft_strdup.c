@@ -10,18 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/cub3d.h"
 
-char	*ft_strdup(const char *src)
+char	*ft_strdup(char *s, t_gc **gc)
 {
-	char	*str;
-	int		s;
+	size_t	len;
+	char	*dup;
+	size_t	i;
 
-	s = ft_strlen(src);
-	str = malloc(s + 1);
-	if (!src)
-		return (0);
-	ft_memcpy(str, src, s);
-	str[s] = '\0';
-	return (str);
+	if (!s)
+		return (NULL);
+	len = ft_strlen(s) + 1;
+	dup = gc_malloc(gc, len);
+	i = 0;
+	while (s[i])
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
 }

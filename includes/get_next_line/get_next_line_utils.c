@@ -65,7 +65,7 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr_gnl(char const *s, unsigned int start, size_t len)
 {
 	char	*res;
 	size_t	i;
@@ -85,7 +85,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	res[i] = '\0';
 	return (res);
 }
-char	*ft_strdup(const char *src)
+char	*ft_strdup_gnl(const char *src)
 {
 	char	*str;
 	int		s;

@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/cub3d.h"
+
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -20,7 +21,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	i = 0;
 	if (!s || start >= (unsigned int)ft_strlen(s))
-		return (ft_calloc(1, 1));
+		return ("");
 	len_a = ft_strlen(s) - start;
 	if (len > len_a)
 		len = len_a;

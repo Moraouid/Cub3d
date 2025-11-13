@@ -32,63 +32,131 @@ int	hight_map(int fd)
 	close(fd);
 	return (hight);
 }
-void	parse_map(int fd, t_map *map)
+
+int	extract_color(char *color)
+{
+	int	n_color;
+
+	n_color = atoi(color);
+	if (n_color >= 0 && n_color <= 255)
+		return (n_color);
+	else
+		return (-1);
+}
+
+void	parse_color(char *line, t_color *color, t_gc *gc)
+{
+	char	**rgb;
+	int		i;
+
+	i = 1;
+	while (line[i] == ' ')
+		line++;
+	if (!line)
+	{
+		printf("Error_color1\n");
+		exit(1);
+	}
+	rgb = ft_split(line, ',', &gc);
+	if (!rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
+	{
+		printf("Error_color2\n");
+		exit(1);
+	}
+	color->r = extract_color(rgb[0]);
+	color->g = extract_color(rgb[1]);
+	color->b = extract_color(rgb[2]);
+	if (color->r == -1 || color->g == -1 || color->b == -1)
+	{
+		printf("Error_color3\n");
+		exit(1);
+	}
+}
+
+int	is_chars_valid(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '0' || line[i] == '1' || line[i] == 'N' || line[i] == 'S'
+			|| line[i] == 'E' || line[i] == 'W' || line[i] == ' ')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	parse_map(t_game *game, int fd, char *f_line)
 {
 	char	*line;
 	int		i;
-	int		hight;
 
 	i = 0;
-	hight = hight_map(fd);
-	map->map = malloc(sizeof(char *) * hight + 1);
-	if (!map)
-		(write(2, "Error: Memory allocation failed.\n", 33), exit(1));
+	game->map.map = malloc(sizeof(char *) * 2048);
+	game->map.map[i++] = ft_substr(f_line, 0, ft_strlen(f_line) - 1);
 	line = get_next_line(fd);
-	while (line != NULL)
+	while(line)
 	{
-		map->map[i] = ft_strdup(line);
-		if (map->map[i][ft_strlen(line) - 1] == '\n')
-			map->map[i][ft_strlen(line) - 1] = '\0';
+		if (line[0] == '\n')
+			break ;
+        if(!is_chars_valid(ft_substr(line, 0, ft_strlen(line) - 1)))
+        {
+            write(2, "Error: Invalid character in map\n", 33);
+            exit(1);
+        }
+        game->map.map[i++] = ft_substr(line, 0, ft_strlen(line) - 1);
 		free(line);
 		line = get_next_line(fd);
-		i++;
 	}
-	free(line);
-	map->map[i] = NULL;
-	close(fd);
+    game->map.hight = i;
 }
 
-void	init_game(t_game *game)
+void	parse_file(int fd, t_game *game)
 {
-	game->map->map = NULL;
-	game->map->grid = NULL;
-	game->map->no_path = NULL;
-	game->map->so_path = NULL;
-	game->map->we_path = NULL;
-	game->map->ea_path = NULL;
-	game->map->width = 0;
-	game->map->height = 0;
-	game->map->c_color = 0;
-	game->map->f_color = 0;
-	game->map->player_x = 0;
-	game->map->player_y = 0;
-	game->map->player_dir = 0;
+	char	*line;
+
+	line = get_next_line(fd);
+	while (line)
+	{
+		if (*line == '\n')
+		{
+			line = get_next_line(fd);
+			continue ;
+		}
+		if (!strncmp(line, "NO ", 3))
+			game->tex.no_path = ft_substr(line, 3, ft_strlen(line) - 4);
+		else if (!strncmp(line, "SO ", 3))
+			game->tex.so_path = ft_substr(line, 3, ft_strlen(line) - 4);
+		else if (!strncmp(line, "WE ", 3))
+			game->tex.we_path = ft_substr(line, 3, ft_strlen(line) - 4);
+		else if (!strncmp(line, "EA ", 3))
+			game->tex.ea_path = ft_substr(line, 3, ft_strlen(line) - 4);
+		else if (*line == 'F')
+			parse_color(line, &game->floor, game->gc);
+		else if (*line == 'C')
+			parse_color(line, &game->ceil, game->gc);
+		else if (ft_strchr(("01NSWE "), *line))
+			parse_map(game, fd, line);
+		free(line);
+		line = get_next_line(fd);
+	}
 }
 
 int	main(int ac, char **av)
 {
-	t_game	game;
+	t_game	*game;
 	int		i;
 	int		fd;
 
-	memset(&game, 0, sizeof(t_game));
 	if (ac != 2)
 	{
 		write(2, "Error: Usage ./cub3d path_map.cub\n", 35);
 		exit(1);
 	}
 	i = 0;
-    game.map = malloc(sizeof(t_map));
+	game = malloc(sizeof(t_game));
 	// init_game(&game);
 	while (av[1][i])
 		i++;
@@ -101,11 +169,17 @@ int	main(int ac, char **av)
 		write(2, "Error: map mot found\n", 21);
 		exit(1);
 	}
-	parse_map(fd, game.map);
-	i = 0;
-	while (game.map->map[i])
-	{
-		printf("%s", game.map->map[i]);
-		i++;
-	}
+	parse_file(fd, game);
+	printf("no: %s\n", game->tex.no_path);
+	printf("so: %s\n", game->tex.so_path);
+	printf("wo: %s\n", game->tex.we_path);
+	printf("eo: %s\n", game->tex.ea_path);
+	printf("f: %d,%d,%d\n", game->floor.r, game->floor.g, game->floor.b);
+	printf("c: %d,%d,%d\n", game->ceil.r, game->ceil.g, game->ceil.b);
+    i = 0;
+    while (game->map.map[i])
+    {
+        printf("%s\n", game->map.map[i]);
+        i++;
+    }
 }

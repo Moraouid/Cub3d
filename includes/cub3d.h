@@ -14,37 +14,62 @@
 # define CUB3D_H
 
 # include "./get_next_line/get_next_line.h"
-# include "./libft/libft.h"
 # include "/usr/include/minilibx-linux/mlx.h"
 # include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef struct s_map
+typedef struct s_gc	t_gc;
+
+void				*gc_malloc(t_gc **gc, size_t size);
+char				**ft_split(char *s, char c, t_gc **gc);
+char				*ft_substr(char const *s, unsigned int start, size_t len);
+char				*ft_strdup(char *s, t_gc **gc);
+
+typedef struct s_gc
 {
-    char    **map;
+	void			*ptr;
+	struct s_gc		*next;
+}					t_gc;
 
-	char	*no_path;
-	char	*so_path;
-	char	*we_path;
-	char	*ea_path;
+typedef struct s_texture
+{
+	char			*no_path;
+	char			*so_path;
+	char			*we_path;
+	char			*ea_path;
+}					t_texture;
 
-	int		f_color;
-	int		c_color;
+typedef struct s_color
+{
+	int				r;
+	int				g;
+	int				b;
+}					t_color;
 
-	char	**grid;
-	int		width;
-	int		height;
+typedef struct s_player
+{
+	int				x;
+	int				y;
+	char			dir;
+}					t_palyer;
 
-	double	player_x;
-	double	player_y;
-	char	player_dir;
-
-}			t_map;
+typedef struct t_map
+{
+	char			**map;
+	int				hight;
+	int				wight;
+}					t_map;
 
 typedef struct s_game
 {
-	t_map	*map;
-}			t_game;
+	t_gc			*gc;
+	t_map			map;
+	t_texture		tex;
+	t_color			floor;
+	t_color			ceil;
+	t_palyer		player;
+
+}					t_game;
 
 #endif

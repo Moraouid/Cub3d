@@ -24,7 +24,7 @@ char    *get_next_line(int fd);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strdup(const char *src);
+char	*ft_substr_gnl(char const *s, unsigned int start, size_t len);
+char	*ft_strdup_gnl(const char *src);
 
 #endif

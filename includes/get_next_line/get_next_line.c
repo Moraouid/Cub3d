@@ -47,10 +47,10 @@ static char	*line_extra(char	**rem)
 	new_line = ft_strchr(*rem, '\n');
 	if (!new_line)
 		return (NULL);
-	line = ft_substr(*rem, 0, new_line - *rem + 1);
+	line = ft_substr_gnl(*rem, 0, new_line - *rem + 1);
 	if (!line)
 		return (NULL);
-	tmp = ft_strdup(new_line + 1);
+	tmp = ft_strdup_gnl(new_line + 1);
 	if (!tmp)
 	{
 		free(line);
@@ -69,7 +69,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!rem)
-		 rem = ft_strdup("");
+		 rem = ft_strdup_gnl("");
 	rem = read_join(fd, rem);
 	if (!rem)
 		return (NULL);
@@ -78,7 +78,7 @@ char	*get_next_line(int fd)
 		return (line);
 	if (ft_strlen(rem) > 0)
 	{
-		line = ft_strdup(rem);
+		line = ft_strdup_gnl(rem);
 		free(rem);
 		rem = NULL;
 		return (line);
