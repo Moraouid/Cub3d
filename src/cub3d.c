@@ -19,7 +19,7 @@
 int	hight_map(int fd)
 {
 	char	*line;
-	int		hight;
+	int		hight = 0;
 
 	line = get_next_line(fd);
 	while (line)
@@ -28,7 +28,6 @@ int	hight_map(int fd)
 		free(line);
 		line = get_next_line(fd);
 	}
-	free(line);
 	close(fd);
 	return (hight);
 }
@@ -51,7 +50,7 @@ void	parse_color(char *line, t_color *color, t_gc *gc)
 
 	i = 1;
 	while (line[i] == ' ')
-		line++;
+		i++;
 	if (!line)
 	{
 		printf("Error_color1\n");
@@ -75,73 +74,116 @@ void	parse_color(char *line, t_color *color, t_gc *gc)
 
 int	is_chars_valid(char *line)
 {
-	int	i;
+    int	i;
 
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '0' || line[i] == '1' || line[i] == 'N' || line[i] == 'S'
-			|| line[i] == 'E' || line[i] == 'W' || line[i] == ' ')
-			return (1);
-		i++;
-	}
-	return (0);
+    i = 0;
+    while (line[i])
+    {
+        if (line[i] != '0' && line[i] != '1' && line[i] != 'N' && line[i] != 'S'
+            && line[i] != 'E' && line[i] != 'W' && line[i] != ' ')
+            return (0);
+        i++;
+    }
+    return (1);
 }
 
-void	parse_map(t_game *game, int fd, char *f_line)
+void	parse_map(t_game *game, int fd, char *line)
 {
-	char	*line;
-	int		i;
+    char	*temp;
+    int		i, len;
 
-	i = 0;
-	game->map.map = malloc(sizeof(char *) * 2048);
-	game->map.map[i++] = ft_substr(f_line, 0, ft_strlen(f_line) - 1);
-	line = get_next_line(fd);
-	while(line)
-	{
-		if (line[0] == '\n')
-			break ;
-        if(!is_chars_valid(ft_substr(line, 0, ft_strlen(line) - 1)))
+    i = 0;
+    game->map.map = malloc(sizeof(char *) * 2048);
+    if (!game->map.map)
+        exit(1);
+    while(line && *line == '\n')
+    {
+        free(line);
+        line = get_next_line(fd);
+    }
+    if (!line)
+    {
+        write(2, "Error: Empty map\n", 17);
+        exit(1);
+    }
+    while(line)
+    {
+        if (line[0] == '\n')
+            break ;
+		len = ft_strlen(line);
+        if (line[len - 1] == '\n')
+            len--;
+        temp = ft_substr(line, 0, len);
+        if(!is_chars_valid(temp))
         {
             write(2, "Error: Invalid character in map\n", 33);
             exit(1);
         }
-        game->map.map[i++] = ft_substr(line, 0, ft_strlen(line) - 1);
-		free(line);
-		line = get_next_line(fd);
-	}
+        game->map.map[i++] = temp;
+        free(line);
+        line = get_next_line(fd);
+    }
+    game->map.map[i] = NULL;
     game->map.hight = i;
+}
+
+char	*init_var(t_game *game, char *line, int fd)
+{
+    int i = 0;
+
+    while(line)
+    {
+        if (*line == '\n' && i < 6)
+        {
+            free(line);
+            line = get_next_line(fd);
+            continue ;
+        }
+        if(!strncmp(line, "NO ", 3) && !game->tex.no_path)
+            game->tex.no_path = ft_substr(line, 3, ft_strlen(line) - 4);
+        else if(!strncmp(line, "SO ", 3) && !game->tex.so_path)
+            game->tex.so_path = ft_substr(line, 3, ft_strlen(line) - 4);
+        else if(!strncmp(line, "WE ", 3) && !game->tex.we_path)
+            game->tex.we_path = ft_substr(line, 3, ft_strlen(line) - 4);
+        else if(!strncmp(line, "EA ", 3) && !game->tex.ea_path)
+            game->tex.ea_path = ft_substr(line, 3, ft_strlen(line) - 4);
+        else if(!strncmp(line, "F ", 2))
+            parse_color(line, &game->floor, game->gc);
+        else if(!strncmp(line, "C ", 2))
+            parse_color(line, &game->ceil, game->gc);
+        else
+            return line;
+        free(line);
+        line = get_next_line(fd);
+        i++;
+    }
+    return line;
 }
 
 void	parse_file(int fd, t_game *game)
 {
-	char	*line;
+    char	*line;
+    char	*map_line;
 
-	line = get_next_line(fd);
-	while (line)
-	{
-		if (*line == '\n')
-		{
-			line = get_next_line(fd);
-			continue ;
-		}
-		if (!strncmp(line, "NO ", 3))
-			game->tex.no_path = ft_substr(line, 3, ft_strlen(line) - 4);
-		else if (!strncmp(line, "SO ", 3))
-			game->tex.so_path = ft_substr(line, 3, ft_strlen(line) - 4);
-		else if (!strncmp(line, "WE ", 3))
-			game->tex.we_path = ft_substr(line, 3, ft_strlen(line) - 4);
-		else if (!strncmp(line, "EA ", 3))
-			game->tex.ea_path = ft_substr(line, 3, ft_strlen(line) - 4);
-		else if (*line == 'F')
-			parse_color(line, &game->floor, game->gc);
-		else if (*line == 'C')
-			parse_color(line, &game->ceil, game->gc);
-		else if (ft_strchr(("01NSWE "), *line))
-			parse_map(game, fd, line);
-		free(line);
-		line = get_next_line(fd);
-	}
+    line = get_next_line(fd);
+    map_line = init_var(game, line, fd);
+    if(game->tex.no_path && game->tex.so_path && game->tex.we_path 
+       && game->tex.ea_path)
+    {
+        if (map_line)
+            parse_map(game, fd, map_line);
+        else
+        {
+            printf("Error: No map found\n");
+            exit(1);
+        }
+    }
+    else
+    {
+        free(map_line);
+        printf("Error: invalid path or less/more texture \n");
+        exit(1);
+    }
 }
 
 int	main(int ac, char **av)
