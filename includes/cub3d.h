@@ -16,15 +16,21 @@
 # include "./get_next_line/get_next_line.h"
 # include "/usr/include/minilibx-linux/mlx.h"
 # include <fcntl.h>
+# include <math.h>
+# include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
 
-typedef struct s_gc	t_gc;
-
-void				*gc_malloc(t_gc **gc, size_t size);
-char				**ft_split(char *s, char c, t_gc **gc);
-char				*ft_substr(char const *s, unsigned int start, size_t len);
-char				*ft_strdup(char *s, t_gc **gc);
+# define WINDOW_W 1080
+# define WINDOW_H 720
+# define T_SIZE 32
+# define SPEED 1.5
+# define FOV 60 * M_PI / 180
+# define WHITE 0XFFFFFF
+# define RED 0x00FF0000
+# define BLACK 0X000000
+# define GRAY 0X808080
 
 typedef struct s_gc
 {
@@ -40,6 +46,15 @@ typedef struct s_texture
 	char			*ea_path;
 }					t_texture;
 
+typedef struct s_img
+{
+	void			*img;
+	char			*addr;
+	int				bits_per_pixel;
+	int				line_length;
+	int				endian;
+}					t_img;
+
 typedef struct s_color
 {
 	int				r;
@@ -49,27 +64,43 @@ typedef struct s_color
 
 typedef struct s_player
 {
-	int				x;
-	int				y;
-	char			dir;
+	float				x;
+	float			y;
+	float			angle;
+	int				falg;
 }					t_palyer;
 
-typedef struct t_map
+typedef struct s_map
 {
 	char			**map;
 	int				hight;
 	int				wight;
 }					t_map;
 
+typedef struct s_mlx
+{
+	void			*mlx;
+	void			*win;
+}					t_mlx;
+
 typedef struct s_game
 {
 	t_gc			*gc;
 	t_map			map;
+	t_img			img;
+	t_mlx			mlx;
 	t_texture		tex;
 	t_color			floor;
 	t_color			ceil;
 	t_palyer		player;
-
+	
 }					t_game;
+
+void				*gc_malloc(t_gc **gc, size_t size);
+char				**ft_split(char *s, char c, t_gc **gc);
+char				*ft_substr(char const *s, unsigned int start, size_t len);
+char				*ft_strdup(char *s, t_gc **gc);
+void				start_game(t_game *game);
+
 
 #endif
