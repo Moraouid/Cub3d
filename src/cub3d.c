@@ -48,15 +48,13 @@ void	parse_color(char *line, t_color *color, t_gc *gc)
 	char	**rgb;
 	int		i;
 
-	i = 1;
-	while (line[i] == ' ')
-		i++;
+	i = 2;
 	if (!line)
 	{
 		printf("Error_color1\n");
 		exit(1);
 	}
-	rgb = ft_split(line, ',', &gc);
+	rgb = ft_split(&line[i], ',', &gc);
 	if (!rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
 	{
 		printf("Error_color2\n");
@@ -90,7 +88,7 @@ int	is_chars_valid(char *line)
 void	parse_map(t_game *game, int fd, char *line)
 {
     char	*temp;
-    int		i, len;
+    int		i, len, j;
 
     i = 0;
     game->map.map = malloc(sizeof(char *) * 2048);
@@ -108,9 +106,12 @@ void	parse_map(t_game *game, int fd, char *line)
     }
     while(line)
     {
-        if (line[0] == '\n')
+        j = 0;
+        while(line[j] == ' ')
+            j++;
+        if (line[j] == '\n')
             break ;
-		len = ft_strlen(line);
+        len = ft_strlen(line);
         if (line[len - 1] == '\n')
             len--;
         temp = ft_substr(line, 0, len);
@@ -127,6 +128,23 @@ void	parse_map(t_game *game, int fd, char *line)
     game->map.hight = i;
 }
 
+int check_dot(char *line)
+{
+    char *dot;
+
+    dot = strrchr(line, '.');
+    if(!strncmp(line, "NO ", 3) || !strncmp(line, "SO ", 3) 
+        || !strncmp(line, "WE ", 3) || !strncmp(line, "EA ", 3))
+    {
+        if (!dot || strncmp(dot, ".txt", 4) != 0)
+        {
+            write(2, "Error: Invalid map extension\n", 29);
+            return (1);
+        }
+    }
+    return (0);
+}
+
 char	*init_var(t_game *game, char *line, int fd)
 {
     int i = 0;
@@ -139,6 +157,8 @@ char	*init_var(t_game *game, char *line, int fd)
             line = get_next_line(fd);
             continue ;
         }
+        if(check_dot(line))
+            return line;
         if(!strncmp(line, "NO ", 3) && !game->tex.no_path)
             game->tex.no_path = ft_substr(line, 3, ft_strlen(line) - 4);
         else if(!strncmp(line, "SO ", 3) && !game->tex.so_path)
@@ -186,10 +206,64 @@ void	parse_file(int fd, t_game *game)
     }
 }
 
+int cheking_map_walls(t_map map)
+{
+    int i = 0;
+    int j;
+    int len;
+
+    while(map.map[i])
+    {
+        j = 0;
+        len = ft_strlen(map.map[i]);
+        while(map.map[i][j] == ' ')
+            j++;
+        if(map.map[i][j] != '1')
+            return 1;
+        if(i == 0 || i == map.hight - 1)
+        {
+            while(j < len)
+            {
+                if(map.map[i][j] != '1' && map.map[i][j] != ' ')
+                    return 2;
+                j++;
+            }
+        }
+        else
+        {
+            if(map.map[i][len - 1] != '1')
+                return 3;
+        }
+        i++;
+    }
+    return 0;
+}
+
+int the_zero_rule(t_map map)
+{
+    int x = 0;
+    int y;
+
+    while(map.map[x])
+    {
+        y = 0;
+        while(map.map[x][y])
+        {
+            if(map.map[x][y] == '0' && (map.map[x][y - 1] == ' ' 
+                || map.map[x][y + 1] == ' ' || map.map[x - 1][y] == ' '
+                || map.map[x + 1][y] == ' ' || map.map[x][y + 1] == '\0'))
+                return 1;
+            y++;
+        }
+        x++;
+    }
+    return 0;
+}
+
 int	main(int ac, char **av)
 {
 	t_game	*game;
-	int		i;
+    int     i;
 	int		fd;
 
 	if (ac != 2)
@@ -197,14 +271,14 @@ int	main(int ac, char **av)
 		write(2, "Error: Usage ./cub3d path_map.cub\n", 35);
 		exit(1);
 	}
-	i = 0;
 	game = malloc(sizeof(t_game));
 	// init_game(&game);
-	while (av[1][i])
-		i++;
-	if (av[1][i - 1] != 'b' || av[1][i - 2] != 'u' || av[1][i - 3] != 'c'
-		|| av[1][i - 4] != '.')
-		return (write(2, "Error: Invalid map file\n", 24));
+    int len = strlen(av[1]);
+	if (len < 4 || strncmp(av[1] + len - 4, ".cub", 4) != 0)
+    {
+        write(2, "Error: Invalid map extension\n", 29);
+        return (1);
+    }
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 	{
@@ -224,4 +298,9 @@ int	main(int ac, char **av)
         printf("%s\n", game->map.map[i]);
         i++;
     }
+    if(cheking_map_walls(game->map))
+        printf("Error map\n");
+    if(the_zero_rule(game->map))
+        printf("the zero rule detecte\n");
+    return (0);
 }
