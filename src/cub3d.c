@@ -3,30 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:23:45 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/10/23 23:23:45 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/11/27 07:44:36 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int	hight_map(int fd)
+void	height_and_width(t_game *game)
 {
-	char	*line;
-	int		hight;
+	int	h;
+	int	w;
+	int	i;
 
-	hight = 0;
-	line = get_next_line(fd);
-	while (line)
+	h = 0;
+	while (game->map.map[h])
+		h++;
+	game->map.height = h;
+	i = 0;
+	w = 0;
+	while (i < h)
 	{
-		hight++;
-		free(line);
-		line = get_next_line(fd);
+		if (ft_strlen(game->map.map[i]) > w)
+			w = ft_strlen(game->map.map[i]);
+		i++;
 	}
-	close(fd);
-	return (hight);
+	game->map.width = w;
+}
+
+int	is_wall(t_game *game, float x, float y)
+{
+	int	dx;
+	int	dy;
+
+	dx = (int)(x / T_SIZE);
+	dy = (int)(y / T_SIZE);
+	if (y < 0 || x < 0 || y >= game->map.height || x >= game->map.width)
+		return (1);
+	if (x >= ft_strlen(game->map.map[dy]))
+		return (1);
+	if (game->map.map[dy][dx] == '1')
+		return (1);
+	return (0);
 }
 
 int	extract_color(char *color)
@@ -121,7 +141,6 @@ void	parse_map(t_game *game, int fd, char *line)
 		line = get_next_line(fd);
 	}
 	game->map.map[i] = NULL;
-	game->map.hight = i;
 }
 
 char	*init_var(t_game *game, char *line, int fd)
@@ -146,9 +165,11 @@ char	*init_var(t_game *game, char *line, int fd)
 		else if (!strncmp(line, "EA ", 3) && !game->tex.ea_path)
 			game->tex.ea_path = ft_substr(line, 3, ft_strlen(line) - 4);
 		else if (!strncmp(line, "F ", 2))
-			parse_color(line, &game->floor, game->gc);
+			parse_color(ft_substr(line, 2, ft_strlen(line) - 3), &game->floor,
+				game->gc);
 		else if (!strncmp(line, "C ", 2))
-			parse_color(line, &game->ceil, game->gc);
+			parse_color(ft_substr(line, 2, ft_strlen(line) - 3), &game->ceiling,
+				game->gc);
 		else
 			return (line);
 		free(line);
@@ -198,8 +219,7 @@ void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-
-static int	in_map(t_game *game, int mi, int mj)
+int	in_map(t_game *game, int mi, int mj)
 {
 	if (mi < 0 || mj < 0)
 		return (0);
@@ -210,31 +230,73 @@ static int	in_map(t_game *game, int mi, int mj)
 	return (1);
 }
 
+// float	cast_ray(t_game *game, float angle)
+// {
+// 	int		hit;
+// 	t_dda	dda;
+// 	float	r_dirx;
+// 	float	r_diry;
+// 	float	dis;
 
-void	draw_direction(t_game *game, float px, float py, float angle,
-		int length)
-{
-	int	x;
-	int	y;
-	int mi, mj;
-	int i = 0;
-
-	while (1)
-	{
-		x = px + cos(angle) * i;
-		y = py + sin(angle) * i;
-		if (x < 0 || y < 0)
-			break ;
-		my_mlx_pixel_put(&game->img, x, y, RED);
-		mi = y / 32;
-		mj = x / 32;
-		if (!in_map(game, mi, mj))
-			break ;
-		if (game->map.map[mi][mj] == '1')
-			break ;
-		i++;
-	}
-}
+// 	hit = 0;
+// 	// deriction of player
+// 	r_dirx = cos(angle);
+// 	r_diry = sin(angle);
+// 	//
+// 	dda.x_map = (int)(game->player.x / T_SIZE);
+// 	dda.y_map = (int)(game->player.y / T_SIZE);
+// 	//
+// 	if (r_dirx == 0)
+// 		dda.d_distx = WINDOW_W;
+// 	else
+// 		dda.d_distx = fabs(1 / r_dirx);
+// 	if (r_diry == 0)
+// 		dda.d_disty = WINDOW_W;
+// 	else
+// 		dda.d_disty = fabs(1 / r_diry);
+// 	if (r_dirx < 0)
+// 	{
+// 		dda.x_step = -1;
+// 		dda.s_distx = (game->player.x / T_SIZE - dda.x_map) * dda.d_distx;
+// 	}
+// 	else
+// 	{
+// 		dda.x_step = 1;
+// 		dda.s_distx = (dda.x_map + 1.0 - game->player.x / T_SIZE) * dda.d_distx;
+// 	}
+// 	if (r_diry < 0)
+// 	{
+// 		dda.y_step = -1;
+// 		dda.s_disty = (game->player.y / T_SIZE - dda.y_map) * dda.d_disty;
+// 	}
+// 	else
+// 	{
+// 		dda.y_step = 1;
+// 		dda.s_disty = (dda.y_map + 1.0 - game->player.y / T_SIZE) * dda.d_disty;
+// 	}
+// 	while (!hit)
+// 	{
+// 		if (dda.s_distx < dda.s_disty)
+// 		{
+// 			dda.s_distx += dda.d_distx;
+// 			dda.x_map += dda.x_step;
+// 			dda.side = 0;
+// 		}
+// 		else
+// 		{
+// 			dda.s_disty += dda.d_disty;
+// 			dda.y_map += dda.y_step;
+// 			dda.side = 1;
+// 		}
+// 		if (is_wall(game, dda.x_map, dda.y_map))
+// 			hit = 1;
+// 	}
+// 	if (dda.side == 0)
+// 		dis = dda.s_distx - dda.d_distx;
+// 	else
+// 		dis = dda.s_disty - dda.d_disty;
+// 	return (dis);
+// }
 
 void	draw_circle(t_game *game, int x, int y, int radius)
 {
@@ -266,42 +328,21 @@ void	draw_square(t_game *game, int x, int y, int size, int color)
 		i = 0;
 		while (i < size)
 		{
-			// if (j == 0 || j == size - 1 || i == 0 || i == size - 1)
-			// 	my_mlx_pixel_put(&game->img, x + i, y + j, BLACK);
-			// else
-				my_mlx_pixel_put(&game->img, x + i, y + j, color);
+			my_mlx_pixel_put(&game->img, x + i, y + j, color);
 			i++;
 		}
 		j++;
 	}
 }
 
-void	draw_fov(t_game *game)
+void	init_player(t_player *player, int x, int y, float angle)
 {
-	int		i;
-	float	ray_a;
-	float	step_a;
-	float	start_a;
-
-
-	start_a = game->player.angle - FOV / 2;
-	step_a = FOV / WINDOW_W;
-	while (i < WINDOW_W)
+	if (!player->flag)
 	{
-		ray_a = start_a + i * step_a;
-		draw_direction(game, game->player.x, game->player.y, ray_a, 100);
-		i++;
-	}
-}
-
-void	init_player(t_palyer *player, int x, int y, float angle)
-{
-	if (!player->falg)
-	{
-		player->x = x;
-		player->y = y;
+		player->x = x + 8;
+		player->y = y + 8;
 		player->angle = angle;
-		player->falg = 1;
+		player->flag = 1;
 	}
 }
 
@@ -323,33 +364,28 @@ void	render_mini_map(t_game *game)
 			else if (game->map.map[i][j] == 'N')
 			{
 				draw_square(game, j * T_SIZE, i * T_SIZE, T_SIZE, WHITE);
-				init_player(&game->player, j * T_SIZE + 16, i * T_SIZE + 16, 3
-					* M_PI_2);
+				init_player(&game->player, j * T_SIZE, i * T_SIZE, 3 * M_PI_2);
 			}
 			else if (game->map.map[i][j] == 'S')
 			{
 				draw_square(game, j * T_SIZE, i * T_SIZE, T_SIZE, WHITE);
-				init_player(&game->player, j * T_SIZE + 16, i * T_SIZE + 16,
-					M_PI_2);
+				init_player(&game->player, j * T_SIZE, i * T_SIZE, M_PI_2);
 			}
 			else if (game->map.map[i][j] == 'E')
 			{
 				draw_square(game, j * T_SIZE, i * T_SIZE, T_SIZE, WHITE);
-				init_player(&game->player, j * T_SIZE + 16, i * T_SIZE + 16, 0);
+				init_player(&game->player, j * T_SIZE, i * T_SIZE, 0);
 			}
 			else if (game->map.map[i][j] == 'W')
 			{
 				draw_square(game, j * T_SIZE, i * T_SIZE, T_SIZE, WHITE);
-				init_player(&game->player, j * T_SIZE + 16, i * T_SIZE + 16,
-					M_PI);
+				init_player(&game->player, j * T_SIZE, i * T_SIZE, M_PI);
 			}
 			j++;
 		}
 		i++;
 	}
-	draw_circle(game, (int)game->player.x, (int)game->player.y, 6);
-	draw_fov(game);
-	mlx_put_image_to_window(game->mlx.mlx, game->mlx.win, game->img.img, 0, 0);
+	draw_circle(game, (int)game->player.x, (int)game->player.y, 3);
 }
 
 void	init_img(t_game *game)
@@ -359,49 +395,313 @@ void	init_img(t_game *game)
 			&game->img.line_length, &game->img.endian);
 }
 
-int	key_press(int key, t_game *game)
+int	cant_move(t_game *game, char key)
 {
-	if (key == 65307)
-		exit(0);
-	if (key == 119)
+	float	x;
+	float	y;
+
+	if (key == 'w')
+	{
+		x = game->player.x + cos(game->player.angle) * SPEED;
+		y = game->player.y + sin(game->player.angle) * SPEED;
+	}
+	if (key == 's')
+	{
+		x = game->player.x - cos(game->player.angle) * SPEED;
+		y = game->player.y - sin(game->player.angle) * SPEED;
+	}
+	if (key == 'a')
+	{
+		x = game->player.x + cos(game->player.angle - M_PI_2) * SPEED;
+		y = game->player.y + sin(game->player.angle - M_PI_2) * SPEED;
+	}
+	if (key == 'd')
+	{
+		x = game->player.x + cos(game->player.angle + M_PI_2) * SPEED;
+		y = game->player.y + sin(game->player.angle + M_PI_2) * SPEED;
+	}
+	return (is_wall(game, x, y));
+}
+
+int	move_player(t_game *game)
+{
+	if (game->keymove.w == 1 && !cant_move(game, 'w'))
 	{
 		game->player.x += cos(game->player.angle) * SPEED;
 		game->player.y += sin(game->player.angle) * SPEED;
 	}
-	if (key == 115)
+	if (game->keymove.s == 1 && !cant_move(game, 's'))
 	{
 		game->player.x -= cos(game->player.angle) * SPEED;
 		game->player.y -= sin(game->player.angle) * SPEED;
 	}
-	if (key == 97)
+	if (game->keymove.a == 1 && !cant_move(game, 'a'))
 	{
 		game->player.x += cos(game->player.angle - M_PI_2) * SPEED;
 		game->player.y += sin(game->player.angle - M_PI_2) * SPEED;
 	}
-	if (key == 100)
+	if (game->keymove.d == 1 && !cant_move(game, 'd'))
 	{
 		game->player.x += cos(game->player.angle + M_PI_2) * SPEED;
 		game->player.y += sin(game->player.angle + M_PI_2) * SPEED;
 	}
-	if (key == 65361)
-		game->player.angle -= 0.1;
-	if (key == 65363)
-		game->player.angle += 0.1;
-	render_mini_map(game);
+	if (game->keymove.right == 1)
+		game->player.angle -= 0.01;
+	if (game->keymove.left == 1)
+		game->player.angle += 0.01;
 	return (0);
+}
+
+int	key_press(int key, t_game *game)
+{
+	if (key == KEY_ESC)
+		exit(0);
+	if (key == KEY_W)
+		game->keymove.w = 1;
+	if (key == KEY_S)
+		game->keymove.s = 1;
+	if (key == KEY_A)
+		game->keymove.a = 1;
+	if (key == KEY_D)
+		game->keymove.d = 1;
+	if (key == KEY_RIGHT)
+		game->keymove.right = 1;
+	if (key == KEY_LEFT)
+		game->keymove.left = 1;
+	return (0);
+}
+
+int	release_key_press(int key, t_game *game)
+{
+	if (key == KEY_W)
+		game->keymove.w = 0;
+	if (key == KEY_S)
+		game->keymove.s = 0;
+	if (key == KEY_A)
+		game->keymove.a = 0;
+	if (key == KEY_D)
+		game->keymove.d = 0;
+	if (key == KEY_RIGHT)
+		game->keymove.right = 0;
+	if (key == KEY_LEFT)
+		game->keymove.left = 0;
+	return (0);
+}
+
+void	render(t_game *game, float px, float py, float angle)
+{
+	int	x;
+	int	y;
+	int	i;
+
+	i = 0;
+	while (i < 50)
+	{
+		x = px + cos(angle) * i;
+		y = py + sin(angle) * i;
+		if (x != game->hori.hit_x && y != game->hori.hit_y)
+			my_mlx_pixel_put(&game->img, x, y, RED);
+		i++;
+	}
+}
+
+void	get_facing(t_player *player)
+{
+	player->facing_down = (player->angle > 0 && player->angle < M_PI);
+	player->facing_up = !player->facing_down;
+	player->facing_right = (player->angle < M_PI_2 || player->angle > 3
+			* M_PI_2);
+	player->facing_left = !player->facing_right;
+}
+
+float	normalize_angle(float angle)
+{
+	angle = fmod(angle, 2 * M_PI);
+	if (angle < 0)
+		angle = 2 * M_PI + angle;
+	return (angle);
+}
+
+void	raycasting(t_game *game)
+{
+	int		i;
+	float	ray_a;
+	float	step_a;
+	float	start_a;
+
+	i = 0;
+	start_a = game->player.angle - FOV / 2;
+	step_a = FOV / WINDOW_W;
+	while (i < WINDOW_W)
+	{
+		ray_a = start_a + i * step_a;
+		render(game, game->player.x, game->player.y, ray_a);
+		i++;
+	}
+}
+
+void	render_ray(t_game *game, float hit_x, float hit_y)
+{
+	float	dx;
+	float	dy;
+	float	distance;
+	int		steps;
+	int		x;
+	int		y;
+
+	dx = hit_x - game->player.x;
+	dy = hit_y - game->player.y;
+	distance = sqrt(dx * dx + dy * dy);
+	steps = (int)distance;
+	for (int i = 0; i < steps; i++)
+	{
+		x = game->player.x + dx / steps * i;
+		y = game->player.y + dy / steps * i;
+		my_mlx_pixel_put(&game->img, x, y, RED);
+	}
+}
+
+void	horizontal_intersect(t_game *game, t_player *p, t_intersect *hori)
+{
+	if (p->facing_up)
+		hori->first_y = floor(p->y / T_SIZE) * T_SIZE - 1;
+	else if (p->facing_down)
+		hori->first_y = floor(p->y / T_SIZE) * T_SIZE + T_SIZE;
+	hori->first_x = (hori->first_y - p->y) / tan(p->angle) + p->x;
+	if (p->facing_up)
+		hori->delta_y = -T_SIZE;
+	else if (p->facing_down)
+		hori->delta_y = T_SIZE;
+	hori->delta_x = hori->delta_y / tan(p->angle);
+	hori->next_x = hori->first_x;
+	hori->next_y = hori->first_y;
+	while (1)
+	{
+		if (is_wall(game, hori->next_x, hori->next_y))
+		{
+			hori->hit_x = hori->next_x;
+			hori->hit_y = hori->next_y;
+			break ;
+		}
+		hori->next_x += hori->delta_x;
+		hori->next_y += hori->delta_y;
+	}
+}
+
+void	vertical_intersect(t_game *game, t_player *p, t_intersect *vert)
+{
+	if (p->facing_right)
+		vert->first_x = floor(p->x / T_SIZE) * T_SIZE + T_SIZE;
+	else if (p->facing_left)
+		vert->first_x = floor(p->x / T_SIZE) * T_SIZE - 1;
+	vert->first_y = (vert->first_x - p->x) * tan(p->angle) + p->x;
+	if (p->facing_right)
+		vert->delta_x = T_SIZE;
+	else if (p->facing_left)
+		vert->delta_x = -T_SIZE;
+	vert->delta_y = vert->delta_x * tan(p->angle);
+	vert->next_x = vert->first_x;
+	vert->next_y = vert->first_y;
+	while (1)
+	{
+		if (is_wall(game, vert->next_x, vert->next_y))
+		{
+			vert->hit_x = vert->next_x;
+			vert->hit_y = vert->next_y;
+			vert->dis = sqrt((p->x - vert->hit_x) * (p->x - vert->hit_x) + (p->y
+						- vert->hit_y) * (p->y - vert->hit_y));
+			break ;
+		}
+		vert->next_x += vert->delta_x;
+		vert->next_y += vert->delta_y;
+	}
+}
+
+t_intersect *closest_hit(t_game *game)
+{
+    if (game->hori.dis < game->vert.dis)
+        return &game->hori;   // horizontal hit is closer
+    else
+        return &game->vert;   // vertical hit is closer
+}
+
+void	raycasting(t_game *game)
+{
+	int			i;
+	float		ray_angle;
+	float		step_angle;
+	float		start_angle;
+	t_intersect	*hit;
+
+	start_angle = game->player.angle - FOV / 2;
+	step_angle = FOV / WINDOW_W;
+	for (i = 0; i < WINDOW_W; i++)
+	{
+		ray_angle = normalize_angle(start_angle + i * step_angle);
+		// Update facing directions for this ray
+		// game->player.angle = ray_angle;
+		get_facing(&game->player);
+		horizontal_intersect(game, &game->player, &game->hori);
+		vertical_intersect(game, &game->player, &game->vert);
+		hit = closest_hit(game);
+		render_ray(game, hit->hit_x, hit->hit_y);
+	}
+}
+
+int	update_game(t_game *game)
+{
+	render_mini_map(game);
+	game->player.angle = normalize_angle(game->player.angle);
+	get_facing(&game->player);
+	horizontal_intersect(game, &game->player, &game->hori);
+	vertical_intersect(game, &game->player, &game->vert);
+	raycasting(game);
+	move_player(game);
+	mlx_put_image_to_window(game->mlx.mlx, game->mlx.win, game->img.img, 0, 0);
+	return (0);
+}
+
+void	ceiling_and_floor(t_game *game, int ceiling, int floor)
+{
+	int	middle;
+	int	x;
+	int	y;
+
+	y = 0;
+	middle = WINDOW_H / 2;
+	while (y < middle)
+	{
+		x = 0;
+		while (x < WINDOW_W)
+			my_mlx_pixel_put(&game->img, x++, y, ceiling);
+		y++;
+	}
+	while (y < WINDOW_H)
+	{
+		x = 0;
+		while (x < WINDOW_W)
+			my_mlx_pixel_put(&game->img, x++, y, floor);
+		y++;
+	}
 }
 
 void	start_game(t_game *game)
 {
+	int	c_floor;
+	int	c_ceiling;
+
 	game->mlx.mlx = mlx_init();
 	game->mlx.win = mlx_new_window(game->mlx.mlx, 1080, 720, "CUB3D");
 	init_img(game);
-	render_mini_map(game);
-	mlx_hook(game->mlx.win, 17, 0, my_exit, NULL);
+	c_floor = (game->floor.r << 16) | (game->floor.g << 8) | game->floor.b;
+	c_ceiling = (game->ceiling.r << 16) | (game->ceiling.g << 8) | game->ceiling.b;
+	ceiling_and_floor(game, c_ceiling, c_floor);
 	mlx_hook(game->mlx.win, 2, 1L << 0, key_press, game);
+	mlx_hook(game->mlx.win, 3, 1L << 1, release_key_press, game);
+	mlx_hook(game->mlx.win, 17, 0, my_exit, NULL);
+	mlx_loop_hook(game->mlx.mlx, update_game, game);
 	mlx_loop(game->mlx.mlx);
 }
-
 int	main(int ac, char **av)
 {
 	t_game	*game;
@@ -414,8 +714,8 @@ int	main(int ac, char **av)
 		exit(1);
 	}
 	i = 0;
+	game = NULL;
 	game = malloc(sizeof(t_game));
-	// init_game(&game);
 	while (av[1][i])
 		i++;
 	if (av[1][i - 1] != 'b' || av[1][i - 2] != 'u' || av[1][i - 3] != 'c'
@@ -428,18 +728,16 @@ int	main(int ac, char **av)
 		exit(1);
 	}
 	parse_file(fd, game);
-	// printf("no: %s\n", game->tex.no_path);
-	// printf("so: %s\n", game->tex.so_path);
-	// printf("wo: %s\n", game->tex.we_path);
-	// printf("eo: %s\n", game->tex.ea_path);
-	// printf("f: %d,%d,%d\n", game->floor.r, game->floor.g, game->floor.b);
-	// printf("c: %d,%d,%d\n", game->ceil.r, game->ceil.g, game->ceil.b);
-	// i = 0;
-	// while (game->map.map[i])
-	// {
-	// 	printf("%s\n", game->map.map[i]);
-	// 	i++;
-	// }
-	game->player.falg = 0;
+	height_and_width(game);
+	memset(&game->keymove, 0, sizeof(t_keymove));
+	memset(&game->hori, 0, sizeof(t_intersect));
+	memset(&game->vert, 0, sizeof(t_intersect));
+	memset(&game->player, 0, sizeof(t_player));
+	memset(&game->ceiling, 0, sizeof(t_color));
+	memset(&game->floor, 0, sizeof(t_color));
+	game->tex.ea_path = NULL;
+	game->tex.we_path = NULL;
+	game->tex.no_path = NULL;
+	game->tex.we_path = NULL;
 	start_game(game);
 }

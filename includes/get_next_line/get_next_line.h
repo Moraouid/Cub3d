@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:20:29 by sel-abbo          #+#    #+#             */
-/*   Updated: 2024/12/12 18:38:40 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/11/25 01:21:05 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 char    *get_next_line(int fd);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(const char *s, int c);
-size_t	ft_strlen(const char *s);
+size_t	ft_strlen_gnl(const char *s);
 char	*ft_substr_gnl(char const *s, unsigned int start, size_t len);
 char	*ft_strdup_gnl(const char *src);
 

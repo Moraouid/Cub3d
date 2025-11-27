@@ -5,16 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 10:53:09 by sel-abbo          #+#    #+#             */
-/*   Updated: 2024/11/08 17:51:47 by sel-abbo         ###   ########.fr       */
+/*   Created: 2025/11/25 01:19:50 by sel-abbo          #+#    #+#             */
+/*   Updated: 2025/11/25 01:23:09 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-size_t	ft_strlen(const char *s)
+int	ft_strlen(char *s)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (s[i])
