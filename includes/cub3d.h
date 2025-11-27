@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/11/27 06:52:20 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/11/27 18:54:46 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@
 
 # define WINDOW_W 1080
 # define WINDOW_H 720
-# define T_SIZE 16
-# define SPEED 0.3
 # define FOV 60 * M_PI / 180
+# define T_SIZE 16
+# define NUM_RAYS WINDOW_W / 4
+# define SPEED 0.3
 # define KEY_W 119
 # define KEY_S 115
 # define KEY_A 97
@@ -120,6 +121,7 @@ typedef struct s_mlx
 
 typedef struct s_intersect
 {
+	bool		hit;
 	float		dis;
 	float		hit_x;
 	float		hit_y;
@@ -130,6 +132,7 @@ typedef struct s_intersect
 	float		delta_x;
 	float		delta_y;
 }				t_intersect;
+
 
 typedef struct s_game
 {

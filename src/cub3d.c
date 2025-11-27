@@ -6,11 +6,12 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:23:45 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/11/27 07:44:36 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/11/27 20:04:01 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
 
 void	height_and_width(t_game *game)
 {
@@ -40,7 +41,7 @@ int	is_wall(t_game *game, float x, float y)
 
 	dx = (int)(x / T_SIZE);
 	dy = (int)(y / T_SIZE);
-	if (y < 0 || x < 0 || y >= game->map.height || x >= game->map.width)
+	if (dy < 0 || dx < 0 || dy >= game->map.height || dx >= game->map.width)
 		return (1);
 	if (x >= ft_strlen(game->map.map[dy]))
 		return (1);
@@ -487,33 +488,6 @@ int	release_key_press(int key, t_game *game)
 		game->keymove.left = 0;
 	return (0);
 }
-
-void	render(t_game *game, float px, float py, float angle)
-{
-	int	x;
-	int	y;
-	int	i;
-
-	i = 0;
-	while (i < 50)
-	{
-		x = px + cos(angle) * i;
-		y = py + sin(angle) * i;
-		if (x != game->hori.hit_x && y != game->hori.hit_y)
-			my_mlx_pixel_put(&game->img, x, y, RED);
-		i++;
-	}
-}
-
-void	get_facing(t_player *player)
-{
-	player->facing_down = (player->angle > 0 && player->angle < M_PI);
-	player->facing_up = !player->facing_down;
-	player->facing_right = (player->angle < M_PI_2 || player->angle > 3
-			* M_PI_2);
-	player->facing_left = !player->facing_right;
-}
-
 float	normalize_angle(float angle)
 {
 	angle = fmod(angle, 2 * M_PI);
@@ -522,65 +496,38 @@ float	normalize_angle(float angle)
 	return (angle);
 }
 
-void	raycasting(t_game *game)
+void	get_facing(t_player *player, float angle)
 {
-	int		i;
-	float	ray_a;
-	float	step_a;
-	float	start_a;
-
-	i = 0;
-	start_a = game->player.angle - FOV / 2;
-	step_a = FOV / WINDOW_W;
-	while (i < WINDOW_W)
-	{
-		ray_a = start_a + i * step_a;
-		render(game, game->player.x, game->player.y, ray_a);
-		i++;
-	}
+	angle = normalize_angle(angle);
+	player->facing_down = (angle > 0 && angle < M_PI);
+	player->facing_up = !player->facing_down;
+	player->facing_right = (angle < M_PI_2 || angle > 3 * M_PI_2);
+	player->facing_left = !player->facing_right;
 }
 
-void	render_ray(t_game *game, float hit_x, float hit_y)
-{
-	float	dx;
-	float	dy;
-	float	distance;
-	int		steps;
-	int		x;
-	int		y;
-
-	dx = hit_x - game->player.x;
-	dy = hit_y - game->player.y;
-	distance = sqrt(dx * dx + dy * dy);
-	steps = (int)distance;
-	for (int i = 0; i < steps; i++)
-	{
-		x = game->player.x + dx / steps * i;
-		y = game->player.y + dy / steps * i;
-		my_mlx_pixel_put(&game->img, x, y, RED);
-	}
-}
-
-void	horizontal_intersect(t_game *game, t_player *p, t_intersect *hori)
+void	horizontal_intersect(t_game *game, t_player *p, t_intersect *hori,
+		float angle)
 {
 	if (p->facing_up)
 		hori->first_y = floor(p->y / T_SIZE) * T_SIZE - 1;
 	else if (p->facing_down)
 		hori->first_y = floor(p->y / T_SIZE) * T_SIZE + T_SIZE;
-	hori->first_x = (hori->first_y - p->y) / tan(p->angle) + p->x;
+	hori->first_x = (hori->first_y - p->y) / tan(angle) + p->x;
 	if (p->facing_up)
 		hori->delta_y = -T_SIZE;
 	else if (p->facing_down)
 		hori->delta_y = T_SIZE;
-	hori->delta_x = hori->delta_y / tan(p->angle);
+	hori->delta_x = hori->delta_y / tan(angle);
 	hori->next_x = hori->first_x;
 	hori->next_y = hori->first_y;
-	while (1)
+	while (hori->next_x <= WINDOW_W && hori->next_x >= 0
+		&& hori->next_y <= WINDOW_H && hori->next_y >= 0)
 	{
 		if (is_wall(game, hori->next_x, hori->next_y))
 		{
 			hori->hit_x = hori->next_x;
 			hori->hit_y = hori->next_y;
+			hori->hit = 1;
 			break ;
 		}
 		hori->next_x += hori->delta_x;
@@ -588,28 +535,29 @@ void	horizontal_intersect(t_game *game, t_player *p, t_intersect *hori)
 	}
 }
 
-void	vertical_intersect(t_game *game, t_player *p, t_intersect *vert)
+void	vertical_intersect(t_game *game, t_player *p, t_intersect *vert,
+		float angle)
 {
 	if (p->facing_right)
 		vert->first_x = floor(p->x / T_SIZE) * T_SIZE + T_SIZE;
 	else if (p->facing_left)
 		vert->first_x = floor(p->x / T_SIZE) * T_SIZE - 1;
-	vert->first_y = (vert->first_x - p->x) * tan(p->angle) + p->x;
+	vert->first_y = (vert->first_x - p->x) * tan(angle) + p->y;
 	if (p->facing_right)
 		vert->delta_x = T_SIZE;
 	else if (p->facing_left)
 		vert->delta_x = -T_SIZE;
-	vert->delta_y = vert->delta_x * tan(p->angle);
+	vert->delta_y = vert->delta_x * tan(angle);
 	vert->next_x = vert->first_x;
 	vert->next_y = vert->first_y;
-	while (1)
+	while (vert->next_x <= WINDOW_W && vert->next_x >= 0
+		&& vert->next_y <= WINDOW_H && vert->next_y >= 0)
 	{
 		if (is_wall(game, vert->next_x, vert->next_y))
 		{
 			vert->hit_x = vert->next_x;
 			vert->hit_y = vert->next_y;
-			vert->dis = sqrt((p->x - vert->hit_x) * (p->x - vert->hit_x) + (p->y
-						- vert->hit_y) * (p->y - vert->hit_y));
+			vert->hit = 1;
 			break ;
 		}
 		vert->next_x += vert->delta_x;
@@ -617,44 +565,148 @@ void	vertical_intersect(t_game *game, t_player *p, t_intersect *vert)
 	}
 }
 
-t_intersect *closest_hit(t_game *game)
+t_intersect	*closest_hit(t_game *game)
 {
-    if (game->hori.dis < game->vert.dis)
-        return &game->hori;   // horizontal hit is closer
-    else
-        return &game->vert;   // vertical hit is closer
+	if (game->hori.dis < game->vert.dis)
+		return (&game->hori);
+	else
+		return (&game->vert);
 }
 
-void	raycasting(t_game *game)
-{
-	int			i;
-	float		ray_angle;
-	float		step_angle;
-	float		start_angle;
-	t_intersect	*hit;
 
-	start_angle = game->player.angle - FOV / 2;
-	step_angle = FOV / WINDOW_W;
-	for (i = 0; i < WINDOW_W; i++)
+void	dis_calculation(t_intersect *hori, t_intersect *vert, t_player *player)
+{
+	if (hori->hit)
 	{
-		ray_angle = normalize_angle(start_angle + i * step_angle);
-		// Update facing directions for this ray
-		// game->player.angle = ray_angle;
-		get_facing(&game->player);
-		horizontal_intersect(game, &game->player, &game->hori);
-		vertical_intersect(game, &game->player, &game->vert);
-		hit = closest_hit(game);
-		render_ray(game, hit->hit_x, hit->hit_y);
+		hori->dis = sqrt((hori->hit_x - player->x) * (hori->hit_x - player->x)
+		+ (hori->hit_y - player->y) * (hori->hit_y - player->y));
 	}
+	else
+	hori->dis = INFINITY;
+	if (vert->hit)
+	{
+		vert->dis = sqrt((vert->hit_x - player->x) * (vert->hit_x - player->x)
+		+ (vert->hit_y - player->y) * (vert->hit_y - player->y));
+	}
+	else
+	vert->dis = INFINITY;
 }
+
+// void render_ray(t_game *g, float angle)
+// {
+// 	float x, y;
+// 	float i = 0;
+	
+// 	angle = normalize_angle(angle);
+// 	while (1)
+// 	{
+// 		x = g->player.x + cos(angle) * i;
+// 		y = g->player.y + sin(angle) * i;
+
+// 		if (is_wall(g, x, y))
+// 			break;
+
+// 		my_mlx_pixel_put(&g->img, x, y, RED);
+// 		i += 1;
+// 	}
+// }
+
+void render_ray(t_game *g, float hit_x, float hit_y)
+{
+    float dx = hit_x - g->player.x;
+    float dy = hit_y - g->player.y;
+
+    float distance = sqrt(dx*dx + dy*dy);
+    int steps = distance;
+
+    for (int i = 0; i < steps; i++)
+    {
+        int x = g->player.x + dx * (i / distance);
+        int y = g->player.y + dy * (i / distance);
+
+        my_mlx_pixel_put(&g->img, x, y, RED);
+    }
+}
+
+// void	raycasting(t_game *game)
+// {
+// 	int			i;
+// 	t_intersect	*hit;
+// 	float		ray_angle;
+
+// 	i = 0;
+// 	ray_angle = game->player.angle - FOV / 2;
+// 	while (i < NUM_RAYS)
+// 	{
+// 		get_facing(&game->player, ray_angle);
+// 		game->vert.hit = 0;
+// 		game->hori.hit = 0;
+// 		horizontal_intersect(game, &game->player, &game->hori, ray_angle);
+// 		vertical_intersect(game, &game->player, &game->vert, ray_angle);
+// 		dis_calculation(&game->hori, &game->vert, &game->player);
+// 		hit = closest_hit(game);
+// 		render_ray(game, ray_angle);
+// 		ray_angle += FOV / NUM_RAYS;
+// 		i++;
+// 	}
+// }
+
+void raycasting(t_game *game)
+{
+    int i = 0;
+    float ray_angle = game->player.angle - FOV / 2;
+    t_intersect *hit;
+
+    ray_angle = normalize_angle(ray_angle);
+
+    while (i < NUM_RAYS)
+    {
+        get_facing(&game->player, ray_angle);
+
+        game->hori.hit = 0;
+        game->vert.hit = 0;
+
+        horizontal_intersect(game, &game->player, &game->hori, ray_angle);
+        vertical_intersect(game, &game->player, &game->vert, ray_angle);
+
+        dis_calculation(&game->hori, &game->vert, &game->player);
+
+        hit = closest_hit(game);
+
+        if (hit->hit)
+            render_ray(game, hit->hit_x, hit->hit_y);
+
+        ray_angle += FOV / NUM_RAYS;
+        ray_angle = normalize_angle(ray_angle);
+
+        i++;
+    }
+}
+
+
+// void raycasting(t_game *g)
+// {
+//     float start_angle;
+//     float ray_angle;
+//     float step_angle;
+//     int   i;
+
+//     start_angle = g->player.angle - (FOV / 2);
+//     step_angle = FOV / WINDOW_W;
+//     i = 0;
+//     while (i < WINDOW_W)
+//     {
+//         ray_angle = start_angle + i * step_angle;
+//         // ray_angle = normalize_angle(ray_angle);
+//         render_ray(g, ray_angle);
+//         i++;
+//     }
+// }
+
 
 int	update_game(t_game *game)
 {
 	render_mini_map(game);
-	game->player.angle = normalize_angle(game->player.angle);
-	get_facing(&game->player);
-	horizontal_intersect(game, &game->player, &game->hori);
-	vertical_intersect(game, &game->player, &game->vert);
 	raycasting(game);
 	move_player(game);
 	mlx_put_image_to_window(game->mlx.mlx, game->mlx.win, game->img.img, 0, 0);
@@ -702,6 +754,7 @@ void	start_game(t_game *game)
 	mlx_loop_hook(game->mlx.mlx, update_game, game);
 	mlx_loop(game->mlx.mlx);
 }
+
 int	main(int ac, char **av)
 {
 	t_game	*game;
