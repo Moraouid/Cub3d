@@ -88,11 +88,13 @@ int	is_chars_valid(char *line)
 void	parse_map(t_game *game, int fd, char *line)
 {
     char	*temp;
-    int		i, len, j;
+    char	**temp_map;
+    int		i, len, j, max_len;
 
     i = 0;
-    game->map.map = malloc(sizeof(char *) * 2048);
-    if (!game->map.map)
+    max_len = 0;
+    temp_map = malloc(sizeof(char *) * 2048);
+    if (!temp_map)
         exit(1);
     while(line && *line == '\n')
     {
@@ -104,6 +106,7 @@ void	parse_map(t_game *game, int fd, char *line)
         write(2, "Error: Empty map\n", 17);
         exit(1);
     }
+    // First pass: store lines and find max length
     while(line)
     {
         j = 0;
@@ -114,18 +117,52 @@ void	parse_map(t_game *game, int fd, char *line)
         len = ft_strlen(line);
         if (line[len - 1] == '\n')
             len--;
+        if(max_len < len)
+            max_len = len;
         temp = ft_substr(line, 0, len);
         if(!is_chars_valid(temp))
         {
             write(2, "Error: Invalid character in map\n", 33);
             exit(1);
         }
-        game->map.map[i++] = temp;
+        temp_map[i++] = temp;
         free(line);
         line = get_next_line(fd);
     }
-    game->map.map[i] = NULL;
+    temp_map[i] = NULL;
     game->map.hight = i;
+    game->map.wight = max_len;
+    
+    // Second pass: allocate fixed size and pad with spaces
+    game->map.map = malloc(sizeof(char *) * (i + 1));
+    if (!game->map.map)
+        exit(1);
+    i = 0;
+    while(temp_map[i])
+    {
+        len = ft_strlen(temp_map[i]);
+        game->map.map[i] = malloc(max_len + 1);
+        if (!game->map.map[i])
+            exit(1);
+        j = 0;
+        // Copy original content
+        while(j < len)
+        {
+            game->map.map[i][j] = temp_map[i][j];
+            j++;
+        }
+        // Fill remaining with spaces
+        while(j < max_len)
+        {
+            game->map.map[i][j] = ' ';
+            j++;
+        }
+        game->map.map[i][max_len] = '\0';
+        free(temp_map[i]);
+        i++;
+    }
+    game->map.map[i] = NULL;
+    free(temp_map);
 }
 
 int check_dot(char *line)
@@ -210,19 +247,22 @@ int cheking_map_walls(t_map map)
 {
     int i = 0;
     int j;
-    int len;
+    int last_char_pos;
 
     while(map.map[i])
     {
         j = 0;
-        len = ft_strlen(map.map[i]);
         while(map.map[i][j] == ' ')
             j++;
         if(map.map[i][j] != '1')
             return 1;
+        last_char_pos = map.wight - 1;
+        while(last_char_pos >= 0 && map.map[i][last_char_pos] == ' ')
+            last_char_pos--;
+        
         if(i == 0 || i == map.hight - 1)
         {
-            while(j < len)
+            while(j <= last_char_pos)
             {
                 if(map.map[i][j] != '1' && map.map[i][j] != ' ')
                     return 2;
@@ -231,7 +271,7 @@ int cheking_map_walls(t_map map)
         }
         else
         {
-            if(map.map[i][len - 1] != '1')
+            if(last_char_pos >= 0 && map.map[i][last_char_pos] != '1')
                 return 3;
         }
         i++;
@@ -293,9 +333,11 @@ int	main(int ac, char **av)
 	printf("f: %d,%d,%d\n", game->floor.r, game->floor.g, game->floor.b);
 	printf("c: %d,%d,%d\n", game->ceil.r, game->ceil.g, game->ceil.b);
     i = 0;
+    printf("Map width (max_len): %d\n", game->map.wight);
+    printf("Map height: %d\n", game->map.hight);
     while (game->map.map[i])
     {
-        printf("%s\n", game->map.map[i]);
+        printf("Line %d (len=%zu): [%s]\n", i, ft_strlen(game->map.map[i]), game->map.map[i]);
         i++;
     }
     if(cheking_map_walls(game->map))
