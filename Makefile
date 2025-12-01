@@ -1,9 +1,10 @@
 NAME = cub3d
 CC = cc -g
-MLX = -L/usr/include/minilibx-linux -lmlx -lXext -lX11 -lm
+MLX = -L/usr/local/lib -lmlx -lXext -lX11 -lm
 GNL = includes/get_next_line/get_next_line.c includes/get_next_line/get_next_line_utils.c 
 CFLAGS = -Wall -Wextra -Werror
-SRCS = src/cub3d.c $(wildcard src/parsing/*.c) $(wildcard ./src/helper/*.c)
+SRCS = src/cub3d.c src/start_game.c $(wildcard src/parsing/*.c) $(wildcard ./src/helper/*.c) \
+		$(wildcard src/render/*.c)
 
 OBJS = $(SRCS:.c=.o)
 
@@ -21,4 +22,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re  
+.PHONY: all clean fclean re

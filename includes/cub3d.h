@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/11/27 18:54:46 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/01 20:22:32 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define CUB3D_H
 
 # include "./get_next_line/get_next_line.h"
-# include "/usr/include/minilibx-linux/mlx.h"
 # include <fcntl.h>
 # include <math.h>
+# include <mlx.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -24,11 +24,11 @@
 # include <unistd.h>
 
 # define WINDOW_W 1080
-# define WINDOW_H 720
+# define WINDOW_H 600
 # define FOV 60 * M_PI / 180
-# define T_SIZE 16
-# define NUM_RAYS WINDOW_W / 4
-# define SPEED 0.3
+# define T_SIZE 32
+# define MMSF 0.2
+# define SPEED 0.5
 # define KEY_W 119
 # define KEY_S 115
 # define KEY_A 97
@@ -55,46 +55,12 @@ typedef struct s_texture
 	char		*ea_path;
 }				t_texture;
 
-typedef struct s_img
-{
-	void		*img;
-	char		*addr;
-	int			bits_per_pixel;
-	int			line_length;
-	int			endian;
-}				t_img;
-
 typedef struct s_color
 {
 	int			r;
 	int			g;
 	int			b;
 }				t_color;
-
-typedef struct s_player
-{
-	int			facing_up;
-	int			facing_left;
-	int			facing_down;
-	int			facing_right;
-	bool		flag;
-	float		x;
-	float		y;
-	float		angle;
-}				t_player;
-
-typedef struct s_dda
-{
-	int			x_map;
-	int			y_map;
-	int			x_step;
-	int			y_step;
-	int			side;
-	float		s_distx;
-	float		s_disty;
-	float		d_distx;
-	float		d_disty;
-}				t_dda;
 
 typedef struct s_keymove
 {
@@ -106,12 +72,29 @@ typedef struct s_keymove
 	int			left;
 }				t_keymove;
 
-typedef struct s_map
+typedef struct s_player
+{
+	float		x;
+	float		y;
+	int			flag;
+	float		angle;
+}				t_player;
+
+typedef struct t_map
 {
 	char		**map;
 	int			height;
 	int			width;
 }				t_map;
+
+typedef struct s_img
+{
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+}				t_img;
 
 typedef struct s_mlx
 {
@@ -123,38 +106,69 @@ typedef struct s_intersect
 {
 	bool		hit;
 	float		dis;
-	float		hit_x;
-	float		hit_y;
 	float		next_x;
 	float		next_y;
 	float		first_x;
 	float		first_y;
 	float		delta_x;
 	float		delta_y;
+	float		hit_x;
+	float		hit_y;
 }				t_intersect;
 
+typedef struct s_ray
+{
+	bool		facing_up;
+	bool		facing_left;
+	bool		facing_down;
+	bool		facing_right;
+	float		dist;
+	float		ray_angle;
+	float		angle_step;
+	float		wall_hit_x;
+	float		wall_hit_y;
+}				t_ray;
 
 typedef struct s_game
 {
 	t_gc		*gc;
 	t_map		map;
-	t_img		img;
 	t_mlx		mlx;
-	t_color		ceiling;
-	t_color		floor;
-	t_player	player;
+	t_img		img;
 	t_texture	tex;
+	t_color		floor;
+	t_color		ceiling;
+	t_player	player;
 	t_keymove	keymove;
-	t_intersect	vert;
-	t_intersect	hori;
-
 }				t_game;
 
-int				ft_strlen(char *s);
-char			*ft_strdup(char *s, t_gc **gc);
+void			*gc_malloc(t_gc **gc, size_t size);
 char			**ft_split(char *s, char c, t_gc **gc);
 char			*ft_substr(char *s, unsigned int start, size_t len);
-void			start_game(t_game *game);
-void			*gc_malloc(t_gc **gc, size_t size);
+char			*ft_strdup(char *s, t_gc **gc);
 
+float			normalize_angle(float angle);
+void			init_img(t_game *game);
+void			start_game(t_game *game);
+void			my_mlx_pixel_put(t_img *data, int x, int y, int color);
+void			render_mini_map(t_game *game);
+void			draw_square(t_game *game, float x, float y, int color);
+void			draw_circle(t_game *game, float x, float y, float radius);
+int				cant_move(t_game *game, char key);
+int				move_player(t_game *game);
+int				key_press(int key, t_game *game);
+int				release_key_press(int key, t_game *game);
+int				is_wall(t_game *game, float x, float y);
+void			ceiling_and_floor(t_game *game, int ceiling, int floor);
+int				ft_strlen(char *s);
+void			draw_ray(t_game *game, float angle, int length);
+void			raycasting(t_game *game);
+void			set_player_orientation(t_game *game, int x, int y, char c);
+void			get_facing(t_ray *ray, float angle);
+float			dist_calcule(t_game *game, t_ray ray);
+void			vertical_intersect(t_game *game, t_player p, t_intersect *vert,
+					t_ray ray);
+void			horizontal_intersect(t_game *game, t_player p,
+					t_intersect *hori, t_ray ray);
+void			hit_wall(t_game *game, t_intersect *inter);
 #endif

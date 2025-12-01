@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   my_mlx_pixel_put.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 19:52:05 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/11/29 21:28:34 by sel-abbo         ###   ########.fr       */
+/*   Created: 2025/11/28 18:21:14 by sel-abbo          #+#    #+#             */
+/*   Updated: 2025/11/28 18:31:06 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
+void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 {
-	char	*res;
-	size_t	i;
-	size_t	len_a;
+	char	*dst;
 
-	i = 0;
-	if (!s || start >= (unsigned int)ft_strlen(s))
-		return ("");
-	len_a = ft_strlen(s) - start;
-	if (len > len_a)
-		len = len_a;
-	res = (char *)malloc(len + 1);
-	if (!res)
-		return (NULL);
-	while (s[start] && i < len)
-		res[i++] = s[start++];
-	res[i] = '\0';
-	return (res);
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
+}
+
+void	init_img(t_game *game)
+{
+	game->img.img = mlx_new_image(game->mlx.mlx, WINDOW_W, WINDOW_H);
+	game->img.addr = mlx_get_data_addr(game->img.img, &game->img.bits_per_pixel,
+			&game->img.line_length, &game->img.endian);
 }
