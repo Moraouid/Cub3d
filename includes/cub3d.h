@@ -17,14 +17,9 @@
 # include "/usr/include/minilibx-linux/mlx.h"
 # include <fcntl.h>
 # include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
-
-typedef struct s_gc	t_gc;
-
-void				*gc_malloc(t_gc **gc, size_t size);
-char				**ft_split(char *s, char c, t_gc **gc);
-char				*ft_substr(char const *s, unsigned int start, size_t len);
-char				*ft_strdup(char *s, t_gc **gc);
+# include <stdio.h>
 
 typedef struct s_gc
 {
@@ -69,7 +64,23 @@ typedef struct s_game
 	t_color			floor;
 	t_color			ceil;
 	t_palyer		player;
-
+	
 }					t_game;
+
+void				*gc_malloc(t_gc **gc, size_t size);
+char				**ft_split(char *s, char c, t_gc **gc);
+char				*ft_substr(char const *s, unsigned int start, size_t len);
+char				*ft_strdup(char *s, t_gc **gc);
+void	parse_map(t_game *game, int fd, char *line);
+int check_dot(char *line);
+int	hight_map(int fd);
+char	*init_var(t_game *game, char *line, int fd);
+void    init_game(t_game *game);
+void	parse_color(char *line, t_color *color, t_gc *gc);
+int	extract_color(char *color);
+void	parse_map(t_game *game, int fd, char *line);
+int	is_chars_valid(char *line);
+int cheking_map_walls(t_map map);
+int the_zero_rule(t_map map);
 
 #endif
