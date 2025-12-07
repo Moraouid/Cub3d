@@ -28,11 +28,11 @@ int cheking_map_walls(t_map map)
             j++;
         if(map.map[i][j] != '1')
             return 1;
-        last_char_pos = map.wight - 1;
+        last_char_pos = map.width - 1;
         while(last_char_pos >= 0 && map.map[i][last_char_pos] == ' ')
             last_char_pos--;
         
-        if(i == 0 || i == map.hight - 1)
+        if(i == 0 || i == map.height - 1)
         {
             while(j <= last_char_pos)
             {

@@ -1,0 +1,154 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minimap.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/28 18:41:09 by sel-abbo          #+#    #+#             */
+/*   Updated: 2025/12/07 22:51:22 by sel-abbo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/cub3d.h"
+
+int	get_pixel_color(t_img *img, int x, int y)
+{
+	char	*pixel_addr;
+
+	if (x < 0 || y < 0)
+		return (0);
+	pixel_addr = img->addr + (y * img->line_length + x * (img->bits_per_pixel
+				/ 8));
+	return (*(int *)pixel_addr);
+}
+int	blend_color(int bg_color, int fg_color, float alpha)
+{
+	int	bg_r;
+	int	bg_g;
+	int	bg_b;
+	int	fg_r;
+	int	fg_g;
+	int	fg_b;
+	int	res_r;
+	int	res_g;
+	int	res_b;
+
+	bg_r = (bg_color >> 16) & 0xFF;
+	bg_g = (bg_color >> 8) & 0xFF;
+	bg_b = bg_color & 0xFF;
+	fg_r = (fg_color >> 16) & 0xFF;
+	fg_g = (fg_color >> 8) & 0xFF;
+	fg_b = fg_color & 0xFF;
+	res_r = fg_r * alpha + bg_r * (1 - alpha);
+	res_g = fg_g * alpha + bg_g * (1 - alpha);
+	res_b = fg_b * alpha + bg_b * (1 - alpha);
+	return ((res_r << 16) | (res_g << 8) | res_b);
+}
+
+void	draw_circle(t_game *game, float x, float y, float radius)
+{
+	float	dy;
+	float	dx;
+
+	dy = -radius;
+	while (dy <= radius)
+	{
+		dx = -radius;
+		while (dx <= radius)
+		{
+			if (dx * dx + dy * dy <= radius * radius)
+				my_mlx_pixel_put(&game->img, x + dx, y + dy, RED);
+			dx++;
+		}
+		dy++;
+	}
+}
+
+void	draw_square_opacity(t_game *game, float x, float y, int fg_color)
+{
+	int	bg_color;
+	int	final_color;
+	int	i;
+	int	j;
+
+	j = 0;
+	while (j < (T_SIZE * MMSF))
+	{
+		i = 0;
+		while (i < (T_SIZE * MMSF))
+		{
+			bg_color = get_pixel_color(&game->img, x + i, y + j);
+			final_color = blend_color(bg_color, fg_color, 0.8);
+			my_mlx_pixel_put(&game->img, x + i, y + j, final_color);
+			i++;
+		}
+		j++;
+	}
+}
+
+void	draw_square(t_game *game, float x, float y, int color)
+{
+	int	j;
+	int	i;
+
+	j = 0;
+	while (j < (T_SIZE * MMSF))
+	{
+		i = 0;
+		while (i < (T_SIZE * MMSF))
+		{
+			my_mlx_pixel_put(&game->img, x + i, y + j, color);
+			i++;
+		}
+		j++;
+	}
+}
+
+void	draw_ray(t_game *game, float angle, int length)
+{
+	int	x;
+	int	y;
+	int	i;
+
+	i = 0;
+	while (i < length)
+	{
+		x = game->player.x + cos(angle) * i;
+		y = game->player.y + sin(angle) * i;
+		if (x < 0 || y < 0)
+			break ;
+		my_mlx_pixel_put(&game->img, MMSF * x + 10, MMSF * y + 10, RED);
+		i++;
+	}
+}
+
+void	render_mini_map(t_game *game)
+{
+	int		i;
+	int		j;
+	char	c;
+
+	i = 0;
+	while (game->map.map[i])
+	{
+		j = 0;
+		while (game->map.map[i][j])
+		{
+			c = game->map.map[i][j];
+			if (c == '1')
+				// draw_square_opacity(game, MMSF * T_SIZE * j + 10, MMSF * T_SIZE
+				// 	* i + 10, GRAY);
+			draw_square(game, MMSF * T_SIZE * j +10, MMSF * T_SIZE * i + 10, GRAY);
+			else if (c == '0' || c == 'E' || c == 'S' || c == 'N' || c == 'W')
+				// draw_square_opacity(game, MMSF * T_SIZE * j + 10, MMSF * T_SIZE
+				// 	* i + 10, WHITE);
+			draw_square(game, MMSF * T_SIZE * j + 10, MMSF * T_SIZE * i + 10, WHITE);
+			j++;
+		}
+		i++;
+	}
+	draw_ray(game, game->player.angle, 30);
+	draw_circle(game, MMSF * game->player.x + 10, MMSF * game->player.y + 10,
+		2);
+}

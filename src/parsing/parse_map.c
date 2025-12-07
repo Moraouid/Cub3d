@@ -35,7 +35,7 @@ static char	**read_map_lines(int fd, char *line, t_game *game)
     int		len;
 
     i = 0;
-    game->map.wight = 0;
+    game->map.width = 0;
     temp_map = malloc(sizeof(char *) * 2048);
     if (!temp_map)
         exit(1);
@@ -46,8 +46,8 @@ static char	**read_map_lines(int fd, char *line, t_game *game)
         len = ft_strlen(line);
         if (line[len - 1] == '\n')
             len--;
-        if (game->map.wight < len)
-            game->map.wight = len;
+        if (game->map.width < len)
+            game->map.width = len;
         temp = ft_substr(line, 0, len);
         if (!is_chars_valid(temp))
         {
@@ -59,7 +59,7 @@ static char	**read_map_lines(int fd, char *line, t_game *game)
         line = get_next_line(fd);
     }
     temp_map[i] = NULL;
-    game->map.hight = i;
+    game->map.height = i;
     return (temp_map);
 }
 
@@ -87,16 +87,16 @@ static void	create_normalized_map(t_game *game, char **temp_map)
 {
     int	i;
 
-    game->map.map = malloc(sizeof(char *) * (game->map.hight + 1));
+    game->map.map = malloc(sizeof(char *) * (game->map.height + 1));
     if (!game->map.map)
         exit(1);
     i = 0;
     while (temp_map[i])
     {
-        game->map.map[i] = malloc(game->map.wight + 1);
+        game->map.map[i] = malloc(game->map.width + 1);
         if (!game->map.map[i])
             exit(1);
-        normalize_map_line(game->map.map[i], temp_map[i], game->map.wight);
+        normalize_map_line(game->map.map[i], temp_map[i], game->map.width);
         free(temp_map[i]);
         i++;
     }

@@ -24,7 +24,7 @@ int check_dot(char *line)
     if(!strncmp(line, "NO ", 3) || !strncmp(line, "SO ", 3) 
         || !strncmp(line, "WE ", 3) || !strncmp(line, "EA ", 3))
     {
-        if (!dot || strncmp(dot, ".txt", 4) != 0)
+        if (!dot || strncmp(dot, ".xpm", 4) != 0)
         {
             write(2, "Error: Invalid map extension\n", 29);
             return (1);

@@ -1,34 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   window.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 19:52:05 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/11/29 21:28:34 by sel-abbo         ###   ########.fr       */
+/*   Created: 2025/11/28 23:40:36 by sel-abbo          #+#    #+#             */
+/*   Updated: 2025/11/29 21:27:40 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
+void	ceiling_and_floor(t_game *game, int ceiling, int floor)
 {
-	char	*res;
-	size_t	i;
-	size_t	len_a;
+	int	middle;
+	int	x;
+	int	y;
 
-	i = 0;
-	if (!s || start >= (unsigned int)ft_strlen(s))
-		return ("");
-	len_a = ft_strlen(s) - start;
-	if (len > len_a)
-		len = len_a;
-	res = (char *)malloc(len + 1);
-	if (!res)
-		return (NULL);
-	while (s[start] && i < len)
-		res[i++] = s[start++];
-	res[i] = '\0';
-	return (res);
+	y = 0;
+	middle = WINDOW_H / 2;
+	while (y < middle)
+	{
+		x = 0;
+		while (x < WINDOW_W)
+			my_mlx_pixel_put(&game->img, x++, y, ceiling);
+		y++;
+	}
+	while (y < WINDOW_H)
+	{
+		x = 0;
+		while (x < WINDOW_W)
+			my_mlx_pixel_put(&game->img, x++, y, floor);
+		y++;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:20:21 by sel-abbo          #+#    #+#             */
-/*   Updated: 2024/12/09 18:02:05 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/11/29 00:04:10 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
+	len_s1 = ft_strlen_gnl(s1);
+	len_s2 = ft_strlen_gnl(s2);
 	res = (char *)malloc(len_s1 + len_s2 + 1);
 	if (!res)
 		return (0);
@@ -54,7 +54,7 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)&s[i]);
 	return (NULL);
 }
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen_gnl(const char *s)
 {
 	size_t	i;
 
@@ -72,9 +72,9 @@ char	*ft_substr_gnl(char const *s, unsigned int start, size_t len)
 	size_t	len_a;
 
 	i = 0;
-	if (!s || start > ft_strlen(s))
+	if (!s || start > ft_strlen_gnl(s))
 		return (NULL);
-	len_a = ft_strlen(s) - start;
+	len_a = ft_strlen_gnl(s) - start;
 	if (len > len_a)
 		len = len_a;
 	res = (char *)malloc(len + 1);
@@ -91,7 +91,7 @@ char	*ft_strdup_gnl(const char *src)
 	int		s;
 	int		i;
 
-	s = ft_strlen(src);
+	s = ft_strlen_gnl(src);
 	str = malloc(s + 1);
 	if (!src)
 		return (NULL);

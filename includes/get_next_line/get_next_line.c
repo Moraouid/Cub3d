@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:20:31 by sel-abbo          #+#    #+#             */
-/*   Updated: 2024/12/12 18:35:09 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/11/29 00:04:28 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*get_next_line(int fd)
 	line = line_extra(&rem);
 	if (line)
 		return (line);
-	if (ft_strlen(rem) > 0)
+	if (ft_strlen_gnl(rem) > 0)
 	{
 		line = ft_strdup_gnl(rem);
 		free(rem);
