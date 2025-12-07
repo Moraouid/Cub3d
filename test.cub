@@ -1,7 +1,7 @@
-NO ./path_to_the_north_texture.txt
-SO ./path_to_the_south_texture.txt
-WE ./path_to_the_west_texture.txt
-EA ./path_to_the_east_texture.txt
+NO path_to_the_north_texture.xpm
+SO path_to_the_south_texture.xpm
+WE path_to_the_west_texture.xpm
+EA path_to_the_east_texture.xpm
 
 F 220,108,50
 C 225,30,9
@@ -21,7 +21,7 @@ C 225,30,9
 100000101010001010001
 111111101011111011101
 100000101000100010001
-101110101110101110111
+100110101110101110111
 101000100000100010101
 101011111111111010101
 100010000000000010001

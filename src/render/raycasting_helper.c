@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 20:17:24 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/01 20:18:52 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/06 00:33:18 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,35 @@ void	hit_wall(t_game *game, t_intersect *inter)
 	}
 }
 
-float	dist_calcule(t_game *game, t_ray ray)
+void	dist_calcule(t_game *game, t_ray *ray)
 {
 	t_intersect	hori;
 	t_intersect	vert;
 
 	memset(&hori, 0, sizeof(t_intersect));
 	memset(&vert, 0, sizeof(t_intersect));
-	horizontal_intersect(game, game->player, &hori, ray);
-	vertical_intersect(game, game->player, &vert, ray);
+	horizontal_intersect(game, game->player, &hori, *ray);
+	vertical_intersect(game, game->player, &vert, *ray);
+	hori.dis = INFINITY;
+	vert.dis = INFINITY;
 	if (hori.hit)
 		hori.dis = hypot(hori.hit_x - game->player.x, hori.hit_y
 				- game->player.y);
-	else
-		hori.dis = INFINITY;
 	if (vert.hit)
 		vert.dis = hypot(vert.hit_x - game->player.x, vert.hit_y
 				- game->player.y);
-	else
-		vert.dis = INFINITY;
 	if (hori.dis < vert.dis)
-		return (hori.dis);
+	{
+		ray->wall_hit_x = hori.hit_x;
+		ray->wall_hit_y = hori.hit_y;
+		ray->dist = hori.dis;
+		ray->hit_hori = 1;
+	}
 	else
-		return (vert.dis);
+	{
+		ray->wall_hit_x = vert.hit_x;
+		ray->wall_hit_y = vert.hit_y;
+		ray->dist = vert.dis;
+		ray->hit_hori = 0;
+	}
 }

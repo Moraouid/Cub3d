@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 18:41:09 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/01 17:33:22 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/06 19:10:11 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void	render_mini_map(t_game *game)
 		}
 		i++;
 	}
-	draw_ray(game, game->player.angle, 12);
+	draw_ray(game, game->player.angle, 30);
 	draw_circle(game, MMSF * game->player.x + 10, MMSF * game->player.y + 10,
 		2);
 }

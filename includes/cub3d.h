@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/01 20:22:32 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/07 01:09:14 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define FOV 60 * M_PI / 180
 # define T_SIZE 32
 # define MMSF 0.2
-# define SPEED 0.5
+# define SPEED 0.9
 # define KEY_W 119
 # define KEY_S 115
 # define KEY_A 97
@@ -46,6 +46,17 @@ typedef struct s_gc
 	void		*ptr;
 	struct s_gc	*next;
 }				t_gc;
+
+typedef struct s_teximg
+{
+	void		*img;
+	char		*addr;
+	int			width;
+	int			height;
+	int			bits_per_pixel;
+	int			line_len;
+	int			endian;
+}				t_teximg;
 
 typedef struct s_texture
 {
@@ -123,6 +134,7 @@ typedef struct s_ray
 	bool		facing_down;
 	bool		facing_right;
 	float		dist;
+	bool		hit_hori;
 	float		ray_angle;
 	float		angle_step;
 	float		wall_hit_x;
@@ -136,6 +148,10 @@ typedef struct s_game
 	t_mlx		mlx;
 	t_img		img;
 	t_texture	tex;
+	t_teximg	north;
+	t_teximg	south;
+	t_teximg	east;
+	t_teximg	wast;
 	t_color		floor;
 	t_color		ceiling;
 	t_player	player;
@@ -165,10 +181,11 @@ void			draw_ray(t_game *game, float angle, int length);
 void			raycasting(t_game *game);
 void			set_player_orientation(t_game *game, int x, int y, char c);
 void			get_facing(t_ray *ray, float angle);
-float			dist_calcule(t_game *game, t_ray ray);
+void			dist_calcule(t_game *game, t_ray *ray);
 void			vertical_intersect(t_game *game, t_player p, t_intersect *vert,
 					t_ray ray);
 void			horizontal_intersect(t_game *game, t_player p,
 					t_intersect *hori, t_ray ray);
 void			hit_wall(t_game *game, t_intersect *inter);
+void			load_texture(t_game *game, t_teximg *tex, char *path);
 #endif

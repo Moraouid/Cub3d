@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:23:45 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/11/30 01:37:05 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/07 01:07:10 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int	check_dot(char *line)
 	if (!strncmp(line, "NO ", 3) || !strncmp(line, "SO ", 3) || !strncmp(line,
 			"WE ", 3) || !strncmp(line, "EA ", 3))
 	{
-		if (!dot || strncmp(dot, ".txt", 4) != 0)
+		if (!dot || strncmp(dot, ".xpm", 4) != 0)
 		{
 			write(2, "Error: Invalid map extension\n", 29);
 			return (1);
