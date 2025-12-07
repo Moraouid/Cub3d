@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/07 01:09:14 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/07 20:40:31 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@
 # include "./get_next_line/get_next_line.h"
 # include <fcntl.h>
 # include <math.h>
-# include <mlx.h>
+# include "/usr/include/minilibx-linux/mlx.h"
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
 
-# define WINDOW_W 1080
-# define WINDOW_H 600
+# define WINDOW_W 1500
+# define WINDOW_H 800
 # define FOV 60 * M_PI / 180
 # define T_SIZE 32
 # define MMSF 0.2
-# define SPEED 0.9
+# define SPEED 0.5
 # define KEY_W 119
 # define KEY_S 115
 # define KEY_A 97
