@@ -11,7 +11,7 @@ int	extract_color(char *color)
 		return (-1);
 }
 
-void	parse_color(char *line, t_color *color, t_gc *gc)
+void	parse_color(char *line, t_color *color, t_game *game)
 {
 	char	**rgb;
 	int		i;
@@ -20,13 +20,13 @@ void	parse_color(char *line, t_color *color, t_gc *gc)
 	if (!line)
 	{
 		printf("Error_color1\n");
-		exit(1);
+		my_exit(game);
 	}
-	rgb = ft_split(&line[i], ',', &gc);
+	rgb = ft_split(&line[i], ',', game);
 	if (!rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
 	{
 		printf("Error_color2\n");
-		exit(1);
+		my_exit(game);
 	}
 	color->r = extract_color(rgb[0]);
 	color->g = extract_color(rgb[1]);
@@ -34,6 +34,6 @@ void	parse_color(char *line, t_color *color, t_gc *gc)
 	if (color->r == -1 || color->g == -1 || color->b == -1)
 	{
 		printf("Error_color3\n");
-		exit(1);
+		my_exit(game);
 	}
 }

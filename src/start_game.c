@@ -12,10 +12,12 @@
 
 #include "../includes/cub3d.h"
 
-int	my_exit(void)
+int	my_exit(t_game *game)
 {
-	exit(1);
-	return (0);
+    if (game && game->gc)
+        gc_clean(&game->gc);
+    exit(1);
+    return (0);
 }
 
 int	game_update(t_game *game)
@@ -85,7 +87,7 @@ void	start_game(t_game *game)
 	set_player(game);
 	mlx_hook(game->mlx.win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->mlx.win, 3, 1L << 1, release_key_press, game);
-	mlx_hook(game->mlx.win, 17, 0, my_exit, NULL);
+	mlx_hook(game->mlx.win, 17, 0, my_exit, game);
 	mlx_loop_hook(game->mlx.mlx, game_update, game);
 	mlx_loop(game->mlx.mlx);
 }

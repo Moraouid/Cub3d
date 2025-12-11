@@ -27,14 +27,14 @@ void	parse_file(int fd, t_game *game)
 		else
 		{
 			printf("Error: No map found\n");
-			exit(1);
+			my_exit(game);
 		}
 	}
 	else
 	{
-		free(map_line);
+		// free(map_line);
 		printf("Error: invalid path or less/more texture \n");
-		exit(1);
+		my_exit(game);
 	}
 }
 
@@ -54,19 +54,19 @@ int	main(int ac, char **av)
 	if (len < 4 || strncmp(av[1] + len - 4, ".cub", 4) != 0)
     {
         write(2, "Error: Invalid map extension\n", 29);
-        return (1);
+        my_exit(game);
     }
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 	{
 		write(2, "Error: map mot found\n", 21);
-		exit(1);
+		my_exit(game);
 	}
 	parse_file(fd, game);
     if(cheking_map_walls(game->map) || the_zero_rule(game->map))
     {
         printf("Error map\n");
-        my_exit();
+        my_exit(game);
     }
 	start_game(game);
     return (0);

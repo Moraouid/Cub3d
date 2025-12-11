@@ -117,7 +117,7 @@ int	move_player(t_game *game)
 int	key_press(int key, t_game *game)
 {
 	if (key == KEY_ESC)
-		my_exit(0);
+		my_exit(game);
 	if (key == KEY_W)
 		game->keymove.w = 1;
 	if (key == KEY_S)

@@ -78,13 +78,13 @@ void	fill_res(char *s, char c, char **res, t_gc **gc)
 	res[idx] = NULL;
 }
 
-char	**ft_split(char *s, char c, t_gc **gc)
+char	**ft_split(char *s, char c, t_game *game)
 {
 	char	**res;
 
 	if (!s)
 		return (NULL);
-	res = gc_malloc(gc, sizeof(char *) * (w_counter(s, c) + 1));
-	fill_res(s, c, res, gc);
+	res = gc_malloc(&game->gc, sizeof(char *) * (w_counter(s, c) + 1));
+	fill_res(s, c, res, &game->gc);
 	return (res);
 }

@@ -159,7 +159,7 @@ typedef struct s_game
 }				t_game;
 
 void			*gc_malloc(t_gc **gc, size_t size);
-char			**ft_split(char *s, char c, t_gc **gc);
+char			**ft_split(char *s, char c, t_game *game);
 char			*ft_substr(char *s, unsigned int start, size_t len);
 char			*ft_strdup(char *s, t_gc **gc);
 
@@ -193,9 +193,10 @@ void			init_game(t_game *game);
 void			parse_map(t_game *game, int fd, char *line);
 int				check_dot(char *line);
 int				hight_map(int fd);
-void			parse_color(char *line, t_color *color, t_gc *gc);
+void			parse_color(char *line, t_color *color, t_game *game);
 int				is_chars_valid(char *line);
 int				cheking_map_walls(t_map map);
 int				the_zero_rule(t_map map);
-int				my_exit();
+int				my_exit(t_game *game);
+void	gc_clean(t_gc **gc);
 #endif

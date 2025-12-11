@@ -23,9 +23,9 @@ char	*init_var(t_game *game, char *line, int fd)
         else if(!strncmp(line, "EA ", 3) && !game->tex.ea_path)
             game->tex.ea_path = ft_substr(line, 3, ft_strlen(line) - 4);
         else if(!strncmp(line, "F ", 2))
-            parse_color(line, &game->floor, game->gc);
+            parse_color(line, &game->floor, game);
         else if(!strncmp(line, "C ", 2))
-            parse_color(line, &game->ceiling, game->gc);
+            parse_color(line, &game->ceiling, game);
         else
             return line;
         free(line);
@@ -53,4 +53,10 @@ void    init_game(t_game *game)
     game->ceiling.b = -1;
     game->player.x = 0;
     game->player.y = 0;
+    game->keymove.w = 0;
+    game->keymove.a = 0;
+    game->keymove.s = 0;
+    game->keymove.d = 0;
+    game->keymove.left = 0;
+    game->keymove.right = 0;
 }
