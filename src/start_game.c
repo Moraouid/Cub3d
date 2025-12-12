@@ -14,10 +14,28 @@
 
 int	my_exit(t_game *game)
 {
-    if (game && game->gc)
+    if (!game)
+        exit(0);
+    if (game->mlx.mlx)
+    {
+        if (game->south.img)
+            mlx_destroy_image(game->mlx.mlx, game->south.img);
+        if (game->north.img)
+            mlx_destroy_image(game->mlx.mlx, game->north.img);
+        if (game->east.img)
+            mlx_destroy_image(game->mlx.mlx, game->east.img);
+        if (game->wast.img)
+            mlx_destroy_image(game->mlx.mlx, game->wast.img);
+        if (game->img.img)
+            mlx_destroy_image(game->mlx.mlx, game->img.img);
+        if (game->mlx.win)
+            mlx_destroy_window(game->mlx.mlx, game->mlx.win);
+        mlx_destroy_display(game->mlx.mlx);
+        free(game->mlx.mlx);
+    }
+    if (game->gc)
         gc_clean(&game->gc);
-    exit(1);
-    return (0);
+    exit(0);
 }
 
 int	game_update(t_game *game)
