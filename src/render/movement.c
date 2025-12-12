@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 23:57:29 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/07 22:55:26 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/12 22:38:06 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int	cant_move_sidewalk(t_game *game, char key)
 	}
 	return (1);
 }
-
 
 int	move_player(t_game *game)
 {

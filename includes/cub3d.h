@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/07 22:56:07 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/12 22:43:24 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define FOV 60 * M_PI / 180
 # define T_SIZE 32
 # define MMSF 0.2
-# define SPEED 0.5
+# define SPEED 0.7
 # define KEY_W 119
 # define KEY_S 115
 # define KEY_A 97
@@ -141,6 +141,14 @@ typedef struct s_ray
 	float		wall_hit_y;
 }				t_ray;
 
+typedef struct s_render
+{
+	float		h_offset;
+	float		wall_h;
+	float		start;
+	float		end;
+}				t_render;
+
 typedef struct s_game
 {
 	t_gc		*gc;
@@ -193,10 +201,13 @@ void			init_game(t_game *game);
 void			parse_map(t_game *game, int fd, char *line);
 int				check_dot(char *line);
 int				hight_map(int fd);
-void			parse_color(char *line, t_color *color, t_game *game);
+void			gc_clean(t_gc **gc);
+void			parse_color(char *line, t_color *color, t_gc *gc);
 int				is_chars_valid(char *line);
 int				cheking_map_walls(t_map map);
 int				the_zero_rule(t_map map);
-int				my_exit(t_game *game);
-void	gc_clean(t_gc **gc);
+void			render3d(t_game *game, t_ray ray, int x);
+int				get_tex_pixel(t_teximg *tex, int x, int y);
+int				my_exit(void);
+
 #endif
