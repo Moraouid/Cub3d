@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/12 22:52:51 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/12 22:55:58 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 # define WINDOW_W 1500
 # define WINDOW_H 800
-# define FOV 60 * M_PI / 180
+# define FOV (60 * M_PI / 180)
 # define T_SIZE 32
 # define MMSF 0.2
 # define SPEED 0.7

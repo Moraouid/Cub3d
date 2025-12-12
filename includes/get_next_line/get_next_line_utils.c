@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:20:21 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/11/29 00:04:10 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/12 23:07:02 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,19 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)&s[i]);
 	return (NULL);
 }
+
 size_t	ft_strlen_gnl(const char *s)
 {
 	size_t	i;
 
 	i = 0;
-	if(!s)
+	if (!s)
 		return (0);
 	while (s[i])
 		i++;
 	return (i);
 }
+
 char	*ft_substr_gnl(char const *s, unsigned int start, size_t len)
 {
 	char	*res;
@@ -85,6 +87,7 @@ char	*ft_substr_gnl(char const *s, unsigned int start, size_t len)
 	res[i] = '\0';
 	return (res);
 }
+
 char	*ft_strdup_gnl(const char *src)
 {
 	char	*str;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:20:29 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/11/29 00:04:48 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/12 23:06:00 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #  define BUFFER_SIZE 1
 # endif
 
-char    *get_next_line(int fd);
+char	*get_next_line(int fd);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen_gnl(const char *s);

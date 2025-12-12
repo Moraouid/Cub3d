@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:20:31 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/11/29 00:04:28 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/12 23:05:51 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,30 @@
 
 static char	*read_join(int fd, char *rem)
 {
-	char	*BUFFER;
+	char	*buffer;
 	ssize_t	b_read;
-	
+
 	b_read = 1;
-	if(BUFFER_SIZE < 0)
+	if (BUFFER_SIZE < 0)
 		return (NULL);
 	while (b_read > 0 && !ft_strchr(rem, '\n'))
 	{
-		BUFFER = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if (!BUFFER)
+		buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+		if (!buffer)
 			return (free(rem), NULL);
-		b_read = read(fd, BUFFER, BUFFER_SIZE);
+		b_read = read(fd, buffer, BUFFER_SIZE);
 		if (b_read < 0)
-			return (free(rem), free(BUFFER),  NULL);
-	
+			return (free(rem), free(buffer), NULL);
 		if (b_read == 0)
-			return (free(BUFFER), rem);
-		BUFFER[b_read] = '\0';
-		rem = ft_strjoin(rem, BUFFER);
-		free(BUFFER);
+			return (free(buffer), rem);
+		buffer[b_read] = '\0';
+		rem = ft_strjoin(rem, buffer);
+		free(buffer);
 	}
 	return (rem);
 }
 
-static char	*line_extra(char	**rem)
+static char	*line_extra(char **rem)
 {
 	char	*line;
 	char	*new_line;
@@ -64,12 +63,12 @@ static char	*line_extra(char	**rem)
 char	*get_next_line(int fd)
 {
 	static char	*rem;
-	char	*line;
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!rem)
-		 rem = ft_strdup_gnl("");
+		rem = ft_strdup_gnl("");
 	rem = read_join(fd, rem);
 	if (!rem)
 		return (NULL);
@@ -85,4 +84,3 @@ char	*get_next_line(int fd)
 	}
 	return (free(rem), rem = NULL, NULL);
 }
-

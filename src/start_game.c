@@ -3,40 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   start_game.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:35:05 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/07 01:07:18 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/12 23:12:31 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-int	my_exit(t_game *game)
-{
-    if (!game)
-        exit(0);
-    if (game->mlx.mlx)
-    {
-        if (game->south.img)
-            mlx_destroy_image(game->mlx.mlx, game->south.img);
-        if (game->north.img)
-            mlx_destroy_image(game->mlx.mlx, game->north.img);
-        if (game->east.img)
-            mlx_destroy_image(game->mlx.mlx, game->east.img);
-        if (game->wast.img)
-            mlx_destroy_image(game->mlx.mlx, game->wast.img);
-        if (game->img.img)
-            mlx_destroy_image(game->mlx.mlx, game->img.img);
-        if (game->mlx.win)
-            mlx_destroy_window(game->mlx.mlx, game->mlx.win);
-        mlx_destroy_display(game->mlx.mlx);
-        free(game->mlx.mlx);
-    }
-    if (game->gc)
-        gc_clean(&game->gc);
-    exit(0);
-}
 
 int	game_update(t_game *game)
 {
@@ -59,6 +33,7 @@ void	init_player(t_player *player, int x, int y, float angle)
 	player->y = y + T_SIZE / 2;
 	player->angle = angle;
 }
+
 void	set_player_orientation(t_game *game, int x, int y, char c)
 {
 	if (c == 'N')
@@ -91,7 +66,6 @@ void	set_player(t_game *game)
 		i++;
 	}
 }
-
 
 void	start_game(t_game *game)
 {

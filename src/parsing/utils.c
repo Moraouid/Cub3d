@@ -3,32 +3,33 @@
 int	hight_map(int fd)
 {
 	char	*line;
-	int		hight = 0;
+    int     height;
 
+	height = 0;
 	line = get_next_line(fd);
 	while (line)
 	{
-		hight++;
+		height++;
 		free(line);
 		line = get_next_line(fd);
 	}
 	close(fd);
-	return (hight);
+	return (height);
 }
 
-int check_dot(char *line)
+int	check_dot(char *line)
 {
-    char *dot;
+	char	*dot;
 
-    dot = strrchr(line, '.');
-    if(!strncmp(line, "NO ", 3) || !strncmp(line, "SO ", 3) 
-        || !strncmp(line, "WE ", 3) || !strncmp(line, "EA ", 3))
-    {
-        if (!dot || strncmp(dot, ".xpm", 4) != 0)
-        {
-            write(2, "Error: Invalid map extension\n", 29);
-            return (1);
-        }
-    }
-    return (0);
+	dot = strrchr(line, '.');
+	if (!strncmp(line, "NO ", 3) || !strncmp(line, "SO ", 3) || !strncmp(line,
+			"WE ", 3) || !strncmp(line, "EA ", 3))
+	{
+		if (!dot || strncmp(dot, ".xpm", 4) != 0)
+		{
+			write(2, "Error: Invalid map extension\n", 29);
+			return (1);
+		}
+	}
+	return (0);
 }

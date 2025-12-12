@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   gc.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:51:09 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/11/13 19:51:09 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/12 23:12:27 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+
+int	my_exit(t_game *game)
+{
+	if (!game)
+		exit(0);
+	if (game->mlx.mlx)
+	{
+		if (game->south.img)
+			mlx_destroy_image(game->mlx.mlx, game->south.img);
+		if (game->north.img)
+			mlx_destroy_image(game->mlx.mlx, game->north.img);
+		if (game->east.img)
+			mlx_destroy_image(game->mlx.mlx, game->east.img);
+		if (game->wast.img)
+			mlx_destroy_image(game->mlx.mlx, game->wast.img);
+		if (game->img.img)
+			mlx_destroy_image(game->mlx.mlx, game->img.img);
+		if (game->mlx.win)
+			mlx_destroy_window(game->mlx.mlx, game->mlx.win);
+		mlx_destroy_display(game->mlx.mlx);
+		free(game->mlx.mlx);
+	}
+	if (game->gc)
+		gc_clean(&game->gc);
+	exit(0);
+}
 
 void	gc_clean(t_gc **gc)
 {
