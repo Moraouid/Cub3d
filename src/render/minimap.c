@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 18:41:09 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/06 19:10:11 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/12 07:15:26 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	get_pixel_color(t_img *img, int x, int y)
 				/ 8));
 	return (*(int *)pixel_addr);
 }
+
 int	blend_color(int bg_color, int fg_color, float alpha)
 {
 	int	bg_r;
@@ -137,13 +138,11 @@ void	render_mini_map(t_game *game)
 		{
 			c = game->map.map[i][j];
 			if (c == '1')
-				draw_square_opacity(game, MMSF * T_SIZE * j + 10, MMSF * T_SIZE
-					* i + 10, GRAY);
-			// draw_square(game, MMSF * T_SIZE * j, MMSF * T_SIZE * i, GRAY);
+				draw_square(game, MMSF * T_SIZE * j + 10, MMSF * T_SIZE * i
+					+ 10, GRAY);
 			else if (c == '0' || c == 'E' || c == 'S' || c == 'N' || c == 'W')
-				draw_square_opacity(game, MMSF * T_SIZE * j + 10, MMSF * T_SIZE
-					* i + 10, WHITE);
-			// draw_square(game, MMSF * T_SIZE * j, MMSF * T_SIZE * i, WHITE);
+				draw_square(game, MMSF * T_SIZE * j + 10, MMSF * T_SIZE * i
+					+ 10, WHITE);
 			j++;
 		}
 		i++;

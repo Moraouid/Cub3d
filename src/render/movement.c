@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 23:57:29 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/07 17:34:33 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/12 07:15:47 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	cant_move_sidewalk(t_game *game, char key)
 	return (1);
 }
 
-
 int	move_player(t_game *game)
 {
 	if (game->keymove.w == 1 && !cant_move_forward_backward(game, 'w'))
@@ -117,7 +116,7 @@ int	move_player(t_game *game)
 int	key_press(int key, t_game *game)
 {
 	if (key == KEY_ESC)
-		exit(0);
+		my_exit();
 	if (key == KEY_W)
 		game->keymove.w = 1;
 	if (key == KEY_S)
