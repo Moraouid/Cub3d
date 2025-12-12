@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/12/12 22:36:31 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/12 22:50:39 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,7 @@ int	main(int ac, char **av)
 {
     t_game	*game;
     int		fd;
-    t_game	*game;
-    int		fd;
 
-    if (ac != 2)
-    {
-        write(2, "Error: Usage ./cub3d path_map.cub\n", 35);
-        exit(1);
-    }
-    game = malloc(sizeof(t_game));
-    init_game(game);
-    int len = strlen(av[1]);
     if (ac != 2)
     {
         write(2, "Error: Usage ./cub3d path_map.cub\n", 35);

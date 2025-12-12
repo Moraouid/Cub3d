@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/12 22:43:24 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/12 22:52:51 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,12 +202,12 @@ void			parse_map(t_game *game, int fd, char *line);
 int				check_dot(char *line);
 int				hight_map(int fd);
 void			gc_clean(t_gc **gc);
-void			parse_color(char *line, t_color *color, t_gc *gc);
+void			parse_color(char *line, t_color *color, t_game *game);
 int				is_chars_valid(char *line);
 int				cheking_map_walls(t_map map);
 int				the_zero_rule(t_map map);
 void			render3d(t_game *game, t_ray ray, int x);
 int				get_tex_pixel(t_teximg *tex, int x, int y);
-int				my_exit(void);
+int				my_exit(t_game *game);
 
 #endif
