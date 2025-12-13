@@ -6,7 +6,7 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:07 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/13 00:12:08 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/13 22:48:49 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 int	extract_color(char *color)
 {
 	int	n_color;
-
-	n_color = atoi(color);
-	if (n_color >= 0 && n_color <= 255)
+	int	error;
+	
+	n_color = ft_atoi(color , &error);
+	if (n_color >= 0 && n_color <= 255 && error == 0)
 		return (n_color);
 	else
 		return (-1);
