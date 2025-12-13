@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 23:14:00 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/12 23:14:07 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/13 22:02:29 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	main(int ac, char **av)
 		my_exit(game);
 	}
 	parse_file(fd, game);
-	if (cheking_map_walls(game->map) || the_zero_rule(game->map))
+	if (the_zero_rule(game->map))
 	{
 		printf("Error map\n");
 		my_exit(game);

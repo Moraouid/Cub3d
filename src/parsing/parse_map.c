@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:10 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/13 06:21:20 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/13 22:03:11 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,7 @@ char	*skip_empty_lines(int fd, char *line, t_game *game)
 
 int	is_empty_line(char *line)
 {
-	int	j;
-
-	j = 0;
-	while (line[j] == ' ')
-		j++;
-	if (line[j] == '\n')
+	if (line[0] == '\n')
 		return (1);
 	return (0);
 }
