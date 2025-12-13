@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/13 00:56:25 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/13 05:59:29 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_teximg
 	int			bits_per_pixel;
 	int			line_len;
 	int			endian;
+	bool		flag;
 }				t_teximg;
 
 typedef struct s_texture

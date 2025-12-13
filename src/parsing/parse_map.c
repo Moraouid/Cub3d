@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:10 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/13 01:15:17 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/13 06:21:20 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,20 @@ int	is_empty_line(char *line)
 	return (0);
 }
 
-char	**resize_map_array(char **temp_map, int *capacity, t_game *game)
+char	**resize_map_array(char **temp_map, int *capacity, int old_capacity,
+		t_game *game)
 {
 	char	**new_map;
+	int		i;
 
 	*capacity *= 2;
-	new_map = realloc(temp_map, sizeof(char *) * (*capacity));
-	if (!new_map)
-		my_exit(game);
+	new_map = gc_malloc(&game->gc, sizeof(char *) * (*capacity));
+	i = 0;
+	while (i < old_capacity)
+	{
+		new_map[i] = temp_map[i];
+		i++;
+	}
 	return (new_map);
 }
 
@@ -82,7 +88,7 @@ char	**read_map_lines(int fd, char *line, t_game *game)
 		if (is_empty_line(line))
 			break ;
 		if (i >= capacity - 1)
-			temp_map = resize_map_array(temp_map, &capacity, game);
+			temp_map = resize_map_array(temp_map, &capacity, i, game);
 		temp_map[i++] = process_map_line(line, &len, game);
 		if (game->map.width < len)
 			game->map.width = len;
@@ -94,7 +100,7 @@ char	**read_map_lines(int fd, char *line, t_game *game)
 	game->map.height = i;
 	return (temp_map);
 }
- 
+
 void	normalize_map_line(char *dest, char *src, int max_len)
 {
 	int	j;
@@ -119,16 +125,15 @@ void	create_normalized_map(t_game *game, char **temp_map)
 {
 	int	i;
 
-	game->map.map = gc_malloc(&game->gc, sizeof(char *) * (game->map.height + 1));
+	game->map.map = gc_malloc(&game->gc, sizeof(char *) * (game->map.height
+				+ 1));
 	i = 0;
 	while (temp_map[i])
 	{
 		game->map.map[i] = gc_malloc(&game->gc, game->map.width + 1);
 		normalize_map_line(game->map.map[i], temp_map[i], game->map.width);
-		free(temp_map[i]);
 		i++;
 	}
-	// free(temp_map);
 	game->map.map[i] = NULL;
 }
 
