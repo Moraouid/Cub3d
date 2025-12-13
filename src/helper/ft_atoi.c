@@ -6,32 +6,39 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 22:46:51 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/13 22:54:59 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/13 23:05:26 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-void	skip_espace(char **str)
+int	ft_atoi(char *nptr, int *error)
 {
-	while (**str == ' ' || (**str >= 9 && **str <= 13))
-		(*str)++;
-}
+    int	i;
+    int	sign;
+    int	n;
 
-int	ft_atoi(char *str, int *error)
-{
-	long	num;
-
-	num = 0;
-	skip_espace(&str);
-	if (*str < '0' || *str > '9')
-		return (*error = 1, 0);
-	while (*str >= '0' && *str <= '9')
-	{
-		num = num * 10 + (*str - '0');
-		str++;
-	}
-	if (*str != '\0')
-		return (*error = 1, 0);
-	return ((int)(num));
+    i = 0;
+    sign = 1;
+    n = 0;
+    while ((nptr[i] >= '\t' && nptr[i] <= '\r') || nptr[i] == ' ')
+        i++;
+    if (nptr[i] == '-' || nptr[i] == '+')
+    {
+        if (nptr[i] == '-')
+            sign *= -1;
+        i++;
+    }
+    while (nptr[i] >= '0' && nptr[i] <= '9')
+    {
+        n = n * 10 + (nptr[i] - '0');
+        i++;
+    }
+    while ((nptr[i] >= '\t' && nptr[i] <= '\r') || nptr[i] == ' ')
+        i++;
+    if (nptr[i] != '\0')
+        *error = 1;
+    else
+        *error = 0;
+    return (n * sign);
 }
