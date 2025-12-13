@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_var.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/13 00:11:59 by ozemrani          #+#    #+#             */
+/*   Updated: 2025/12/13 00:55:13 by ozemrani         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub3d.h"
 
 char	*init_var(t_game *game, char *line, int fd)
@@ -16,13 +28,13 @@ char	*init_var(t_game *game, char *line, int fd)
 		if (check_dot(line))
 			return (line);
 		if (!strncmp(line, "NO ", 3) && !game->tex.no_path)
-			game->tex.no_path = ft_substr(line, 3, ft_strlen(line) - 4);
+			game->tex.no_path = ft_substr(line, 3, ft_strlen(line) - 4, &game->gc);
 		else if (!strncmp(line, "SO ", 3) && !game->tex.so_path)
-			game->tex.so_path = ft_substr(line, 3, ft_strlen(line) - 4);
+			game->tex.so_path = ft_substr(line, 3, ft_strlen(line) - 4, &game->gc);
 		else if (!strncmp(line, "WE ", 3) && !game->tex.we_path)
-			game->tex.we_path = ft_substr(line, 3, ft_strlen(line) - 4);
+			game->tex.we_path = ft_substr(line, 3, ft_strlen(line) - 4, &game->gc);
 		else if (!strncmp(line, "EA ", 3) && !game->tex.ea_path)
-			game->tex.ea_path = ft_substr(line, 3, ft_strlen(line) - 4);
+			game->tex.ea_path = ft_substr(line, 3, ft_strlen(line) - 4, &game->gc);
 		else if (!strncmp(line, "F ", 2))
 			parse_color(line, &game->floor, game);
 		else if (!strncmp(line, "C ", 2))

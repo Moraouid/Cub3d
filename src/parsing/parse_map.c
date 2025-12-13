@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/13 00:12:10 by ozemrani          #+#    #+#             */
+/*   Updated: 2025/12/13 01:15:17 by ozemrani         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub3d.h"
 
 char	*skip_empty_lines(int fd, char *line, t_game *game)
@@ -45,7 +57,7 @@ char	*process_map_line(char *line, int *len, t_game *game)
 	*len = ft_strlen(line);
 	if (line[*len - 1] == '\n')
 		(*len)--;
-	temp = ft_substr(line, 0, *len);
+	temp = ft_substr(line, 0, *len, &game->gc);
 	if (!is_chars_valid(temp))
 	{
 		write(2, "Error: Invalid character in map\n", 33);
@@ -64,7 +76,7 @@ char	**read_map_lines(int fd, char *line, t_game *game)
 	i = 0;
 	capacity = 10;
 	game->map.width = 0;
-	temp_map = malloc(sizeof(char *) * capacity);
+	temp_map = gc_malloc(&game->gc, sizeof(char *) * capacity);
 	while (line)
 	{
 		if (is_empty_line(line))
@@ -77,11 +89,12 @@ char	**read_map_lines(int fd, char *line, t_game *game)
 		free(line);
 		line = get_next_line(fd);
 	}
+	free(line);
 	temp_map[i] = NULL;
 	game->map.height = i;
 	return (temp_map);
 }
-
+ 
 void	normalize_map_line(char *dest, char *src, int max_len)
 {
 	int	j;
@@ -106,17 +119,17 @@ void	create_normalized_map(t_game *game, char **temp_map)
 {
 	int	i;
 
-	game->map.map = malloc(sizeof(char *) * (game->map.height + 1));
+	game->map.map = gc_malloc(&game->gc, sizeof(char *) * (game->map.height + 1));
 	i = 0;
 	while (temp_map[i])
 	{
-		game->map.map[i] = malloc(game->map.width + 1);
+		game->map.map[i] = gc_malloc(&game->gc, game->map.width + 1);
 		normalize_map_line(game->map.map[i], temp_map[i], game->map.width);
 		free(temp_map[i]);
 		i++;
 	}
+	// free(temp_map);
 	game->map.map[i] = NULL;
-	free(temp_map);
 }
 
 void	parse_map(t_game *game, int fd, char *line)

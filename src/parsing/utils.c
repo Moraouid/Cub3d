@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/13 00:12:13 by ozemrani          #+#    #+#             */
+/*   Updated: 2025/12/13 00:23:09 by ozemrani         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub3d.h"
 
 int	hight_map(int fd)
 {
 	char	*line;
-    int     height;
+	int		height;
 
 	height = 0;
 	line = get_next_line(fd);
@@ -13,6 +25,7 @@ int	hight_map(int fd)
 		free(line);
 		line = get_next_line(fd);
 	}
+	free(line);
 	close(fd);
 	return (height);
 }

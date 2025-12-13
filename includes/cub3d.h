@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/12 22:55:58 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/13 00:56:25 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ typedef struct s_game
 
 void			*gc_malloc(t_gc **gc, size_t size);
 char			**ft_split(char *s, char c, t_game *game);
-char			*ft_substr(char *s, unsigned int start, size_t len);
+char			*ft_substr(char *s, unsigned int start, size_t len, t_gc **gc);
 char			*ft_strdup(char *s, t_gc **gc);
 
 float			normalize_angle(float angle);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:52:05 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/11/29 21:28:34 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/13 00:56:37 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len, t_gc **gc)
 {
 	char	*res;
 	size_t	i;
@@ -24,7 +24,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	len_a = ft_strlen(s) - start;
 	if (len > len_a)
 		len = len_a;
-	res = (char *)malloc(len + 1);
+	res = (char *)gc_malloc(gc, len + 1);
 	if (!res)
 		return (NULL);
 	while (s[start] && i < len)
