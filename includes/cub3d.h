@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/14 03:32:00 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/14 06:40:01 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@
 # include <string.h>
 # include <unistd.h>
 
+// FOV = (60 * M_PI / 180)
 # define WINDOW_W 1500
 # define WINDOW_H 800
-# define FOV (60 * M_PI / 180)
+# define FOV 1.0471975512
 # define T_SIZE 32
 # define MMSF 0.2
 # define SPEED 0.7
@@ -199,7 +200,6 @@ void			hit_wall(t_game *game, t_intersect *inter);
 void			load_texture(t_game *game, t_teximg *tex, char *path);
 char			*init_var(t_game *game, char *line, int fd);
 void			init_game(t_game *game);
-void			parse_map(t_game *game, int fd, char *line);
 int				check_dot(char *line);
 int				hight_map(int fd);
 void			gc_clean(t_gc **gc);
@@ -210,5 +210,10 @@ void			render3d(t_game *game, t_ray ray, int x);
 int				get_tex_pixel(t_teximg *tex, int x, int y);
 int				my_exit(t_game *game);
 int				ft_atoi(char *str, int *error);
-
+void			parse_file(int fd, t_game *game);
+char			*skip_empty_lines(int fd, char *line, t_game *game);
+char			**resize_map_array(char **temp_map, int *capacity,
+					int old_capacity, t_game *game);
+char			*process_map_line(char *line, int *len, t_game *game);
+int				is_empty_line(char *line);
 #endif

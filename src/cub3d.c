@@ -3,39 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 23:14:00 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/13 22:02:29 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/14 06:39:51 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-void	parse_file(int fd, t_game *game)
-{
-	char	*line;
-	char	*map_line;
-
-	line = get_next_line(fd);
-	map_line = init_var(game, line, fd);
-	if (game->tex.no_path && game->tex.so_path && game->tex.we_path
-		&& game->tex.ea_path)
-	{
-		if (map_line)
-			parse_map(game, fd, map_line);
-		else
-		{
-			printf("Error: No map found\n");
-			my_exit(game);
-		}
-	}
-	else
-	{
-		printf("Error: invalid path or less/more texture \n");
-		my_exit(game);
-	}
-}
 
 int	main(int ac, char **av)
 {

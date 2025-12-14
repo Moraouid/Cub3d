@@ -3,69 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:10 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/13 22:03:11 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/14 06:30:43 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-char	*skip_empty_lines(int fd, char *line, t_game *game)
-{
-	while (line && *line == '\n')
-	{
-		free(line);
-		line = get_next_line(fd);
-	}
-	if (!line)
-	{
-		write(2, "Error: Empty map\n", 17);
-		my_exit(game);
-	}
-	return (line);
-}
-
-int	is_empty_line(char *line)
-{
-	if (line[0] == '\n')
-		return (1);
-	return (0);
-}
-
-char	**resize_map_array(char **temp_map, int *capacity, int old_capacity,
-		t_game *game)
-{
-	char	**new_map;
-	int		i;
-
-	*capacity *= 2;
-	new_map = gc_malloc(&game->gc, sizeof(char *) * (*capacity));
-	i = 0;
-	while (i < old_capacity)
-	{
-		new_map[i] = temp_map[i];
-		i++;
-	}
-	return (new_map);
-}
-
-char	*process_map_line(char *line, int *len, t_game *game)
-{
-	char	*temp;
-
-	*len = ft_strlen(line);
-	if (line[*len - 1] == '\n')
-		(*len)--;
-	temp = ft_substr(line, 0, *len, &game->gc);
-	if (!is_chars_valid(temp))
-	{
-		write(2, "Error: Invalid character in map\n", 33);
-		my_exit(game);
-	}
-	return (temp);
-}
 
 char	**read_map_lines(int fd, char *line, t_game *game)
 {
@@ -139,4 +84,29 @@ void	parse_map(t_game *game, int fd, char *line)
 	line = skip_empty_lines(fd, line, game);
 	temp_map = read_map_lines(fd, line, game);
 	create_normalized_map(game, temp_map);
+}
+
+void	parse_file(int fd, t_game *game)
+{
+	char	*line;
+	char	*map_line;
+
+	line = get_next_line(fd);
+	map_line = init_var(game, line, fd);
+	if (game->tex.no_path && game->tex.so_path && game->tex.we_path
+		&& game->tex.ea_path)
+	{
+		if (map_line)
+			parse_map(game, fd, map_line);
+		else
+		{
+			printf("Error: No map found\n");
+			my_exit(game);
+		}
+	}
+	else
+	{
+		printf("Error: invalid path or less/more texture \n");
+		my_exit(game);
+	}
 }
