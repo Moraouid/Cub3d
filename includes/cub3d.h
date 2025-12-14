@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/14 07:06:48 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/14 21:44:53 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ typedef struct s_player
 {
 	float		x;
 	float		y;
-	int			flag;
 	float		angle;
 }				t_player;
 

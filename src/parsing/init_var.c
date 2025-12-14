@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:11:59 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/14 07:07:02 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/14 21:46:13 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ char	*init_var(t_game *game, char *line, int fd)
 
 void	init_game(t_game *game)
 {
-	ft_memset(&game->keymove, 0, sizeof(t_keymove));
 	game->gc = NULL;
 	game->map.map = NULL;
 	game->mlx.mlx = NULL;
@@ -66,14 +65,10 @@ void	init_game(t_game *game)
 	game->tex.we_path = NULL;
 	game->tex.so_path = NULL;
 	game->tex.ea_path = NULL;
-	game->map.height = 0;
 	game->map.width = 0;
-	game->floor.r = -1;
-	game->floor.g = -1;
-	game->floor.b = -1;
-	game->ceil.r = -1;
-	game->ceil.g = -1;
-	game->ceil.b = -1;
-	game->player.x = 0;
-	game->player.y = 0;
+	game->map.height = 0;
+	ft_memset(&game->ceil, -1, sizeof(t_color));
+	ft_memset(&game->floor, -1, sizeof(t_color));
+	ft_memset(&game->player, 0, sizeof(t_player));
+	ft_memset(&game->keymove, 0, sizeof(t_keymove));
 }

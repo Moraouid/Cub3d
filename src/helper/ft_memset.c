@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 11:21:08 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/14 06:51:13 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/14 21:39:18 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*ft_memset(void *s, int c, size_t n)
 {
-	size_t	j;
+	size_t			j;
 	unsigned char	*st;
 
 	j = 0;
