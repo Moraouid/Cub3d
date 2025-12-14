@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:16 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/14 03:29:55 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/14 22:21:51 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	is_chars_valid(char *line)
 {
-	int	i;
+	static int	flag;
+	int			i;
 
 	i = 0;
 	while (line[i])
@@ -22,6 +23,13 @@ int	is_chars_valid(char *line)
 		if (line[i] != '0' && line[i] != '1' && line[i] != 'N' && line[i] != 'S'
 			&& line[i] != 'E' && line[i] != 'W' && line[i] != ' ')
 			return (0);
+		if (line[i] == 'N' || line[i] == 'S' || line[i] == 'E'
+			|| line[i] == 'W')
+		{
+			if (flag)
+				return (0);
+			flag = 1;
+		}
 		i++;
 	}
 	return (1);

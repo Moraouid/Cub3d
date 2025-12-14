@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:10 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/14 07:20:22 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/14 22:29:11 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ char	**read_map_lines(int fd, char *line, t_game *game)
 		line = get_next_line(fd);
 	}
 	free(line);
+	line  = get_next_line(fd);
+	if (line != NULL)
+	{
+		printf("Errooooor\n");
+		free(line);
+		my_exit(game);
+	}
 	temp_map[i] = NULL;
 	game->map.height = i;
 	return (temp_map);
