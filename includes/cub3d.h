@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/14 06:40:01 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/14 07:06:48 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef struct s_teximg
 	int			bits_per_pixel;
 	int			line_len;
 	int			endian;
-	bool		flag;
 }				t_teximg;
 
 typedef struct s_texture
@@ -149,6 +148,7 @@ typedef struct s_render
 	float		wall_h;
 	float		start;
 	float		end;
+	bool		tex_flag;
 }				t_render;
 
 typedef struct s_game
@@ -180,7 +180,6 @@ void			my_mlx_pixel_put(t_img *data, int x, int y, int color);
 void			render_mini_map(t_game *game);
 void			draw_square(t_game *game, float x, float y, int color);
 void			draw_circle(t_game *game, float x, float y, float radius);
-int				cant_move(t_game *game, char key);
 int				move_player(t_game *game);
 int				key_press(int key, t_game *game);
 int				release_key_press(int key, t_game *game);
@@ -216,4 +215,5 @@ char			**resize_map_array(char **temp_map, int *capacity,
 					int old_capacity, t_game *game);
 char			*process_map_line(char *line, int *len, t_game *game);
 int				is_empty_line(char *line);
+void			*ft_memset(void *s, int c, size_t n);
 #endif

@@ -7,7 +7,7 @@ SRCS = src/cub3d.c src/start_game.c src/parsing/init_var.c src/parsing/parse_col
 		src/parsing/parse_map.c src/parsing/utils.c src/parsing/validate_map.c src/helper/ft_atoi.c \
 		src/parsing/parse_map_helper.c src/helper/ft_split.c src/helper/ft_strdup.c src/helper/ft_strlen.c \
 		src/helper/ft_substr.c src/helper/gc.c src/render/minimap.c src/render/my_mlx_pixel_put.c src/render/window.c \
-		src/render/raycasting_helper.c src/render/movement.c src/render/raycasting.c src/render/render_wall.c
+		src/render/raycasting_helper.c src/render/movement.c src/render/raycasting.c src/render/render_wall.c src/helper/ft_memset.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:51:09 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/13 05:35:22 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/14 07:12:58 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	my_exit(t_game *game)
 	}
 	if (game->gc)
 		gc_clean(&game->gc);
-	exit(0);
+	free(game);
+	exit(1);
 }
 
 void	gc_clean(t_gc **gc)
