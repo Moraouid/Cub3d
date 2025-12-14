@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_colors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:07 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/13 22:48:49 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/14 03:20:09 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	extract_color(char *color)
 {
 	int	n_color;
 	int	error;
-	
-	n_color = ft_atoi(color , &error);
+
+	n_color = ft_atoi(color, &error);
 	if (n_color >= 0 && n_color <= 255 && error == 0)
 		return (n_color);
 	else

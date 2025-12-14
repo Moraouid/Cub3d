@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 06:13:54 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/13 05:18:25 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/14 03:20:54 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	draw_wall(t_game *game, t_teximg tex, int x, t_render *rend)
 	float	tex_pos;
 
 	tex_x = (rend->h_offset / T_SIZE) * tex.width;
-	if(tex.flag)
+	if (tex.flag)
 		tex_x = tex.width - tex_x - 1;
 	step = tex.height / rend->wall_h;
 	tex_pos = (rend->start - (WINDOW_H / 2 - rend->wall_h / 2)) * step;
@@ -67,6 +67,8 @@ void	render3d(t_game *game, t_ray ray, int x)
 	t_teximg	tex;
 	t_render	rend;
 
+	if (ray.dist < 0.00004)
+		ray.dist = 0.00004;
 	rend.wall_h = (T_SIZE / ray.dist) * (WINDOW_W / 2) / tan(FOV / 2);
 	rend.start = (WINDOW_H / 2) - (rend.wall_h / 2);
 	rend.end = (WINDOW_H / 2) + (rend.wall_h / 2);

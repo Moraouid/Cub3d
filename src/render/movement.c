@@ -6,27 +6,11 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 23:57:29 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/12 22:38:06 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/14 03:21:21 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-int	is_wall(t_game *game, float x, float y)
-{
-	int	dx;
-	int	dy;
-
-	dx = (int)(x / T_SIZE);
-	dy = (int)(y / T_SIZE);
-	if (dy < 0 || dx < 0 || dy >= game->map.height || dx >= game->map.width)
-		return (1);
-	if (dx >= ft_strlen(game->map.map[dy]))
-		return (1);
-	if (game->map.map[dy][dx] == '1')
-		return (1);
-	return (0);
-}
 
 int	cant_move_forward_backward(t_game *game, char key)
 {

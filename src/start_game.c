@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:35:05 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/12 23:12:31 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/14 03:22:15 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	game_update(t_game *game)
 	int	c_ceiling;
 
 	c_floor = (game->floor.r << 16) | (game->floor.g << 8) | game->floor.b;
-	c_ceiling = (game->ceiling.r << 16) | (game->ceiling.g << 8) | game->ceiling.b;
+	c_ceiling = (game->ceil.r << 16) | (game->ceil.g << 8) | game->ceil.b;
 	ceiling_and_floor(game, c_ceiling, c_floor);
 	raycasting(game);
 	render_mini_map(game);

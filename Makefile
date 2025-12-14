@@ -1,4 +1,4 @@
-NAME = cub3d
+NAME = cub3D
 CC = cc -g
 MLX = -L/usr/include/minilibx-linux -lmlx -lXext -lX11 -lm
 GNL = includes/get_next_line/get_next_line.c includes/get_next_line/get_next_line_utils.c 

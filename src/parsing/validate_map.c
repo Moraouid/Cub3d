@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:16 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/13 00:12:17 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/14 03:29:55 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,42 +25,6 @@ int	is_chars_valid(char *line)
 		i++;
 	}
 	return (1);
-}
-
-int	cheking_map_walls(t_map map)
-{
-	int	i;
-	int	j;
-	int	last_char_pos;
-
-	i = 0;
-	while (map.map[i])
-	{
-		j = 0;
-		while (map.map[i][j] == ' ')
-			j++;
-		if (map.map[i][j] != '1')
-			return (1);
-		last_char_pos = map.width - 1;
-		while (last_char_pos >= 0 && map.map[i][last_char_pos] == ' ')
-			last_char_pos--;
-		if (i == 0 || i == map.height - 1)
-		{
-			while (j <= last_char_pos)
-			{
-				if (map.map[i][j] != '1' && map.map[i][j] != ' ')
-					return (2);
-				j++;
-			}
-		}
-		else
-		{
-			if (last_char_pos >= 0 && map.map[i][last_char_pos] != '1')
-				return (3);
-		}
-		i++;
-	}
-	return (0);
 }
 
 int	the_zero_rule(t_map map)
