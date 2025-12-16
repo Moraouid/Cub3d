@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:16 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/14 22:21:51 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/15 23:51:05 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,13 @@ int	the_zero_rule(t_map map)
 		x++;
 	}
 	return (0);
+}
+
+void	validate_map(t_game *game)
+{
+	if (the_zero_rule(game->map))
+	{
+		printf("Error map\n");
+		my_exit(game);
+	}
 }

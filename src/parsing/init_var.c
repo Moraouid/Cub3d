@@ -3,24 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   init_var.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:11:59 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/14 21:46:13 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/16 01:17:41 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-char	*init_var(t_game *game, char *line, int fd)
+static int	parse_texture(char *line, t_game *game)
 {
-	int	i;
+	if (check_extension(line + 3, ".xpm"))
+	{
+		printf("Error: Texture file must have .xpm extension\n");
+		my_exit(game);
+	}
+	if (!strncmp(line, "NO ", 3) && !game->tex.no_path)
+		game->tex.no_path = ft_substr(line, 3, ft_strlen(line) - 4, &game->gc);
+	else if (!strncmp(line, "SO ", 3) && !game->tex.so_path)
+		game->tex.so_path = ft_substr(line, 3, ft_strlen(line) - 4, &game->gc);
+	else if (!strncmp(line, "WE ", 3) && !game->tex.we_path)
+		game->tex.we_path = ft_substr(line, 3, ft_strlen(line) - 4, &game->gc);
+	else if (!strncmp(line, "EA ", 3) && !game->tex.ea_path)
+		game->tex.ea_path = ft_substr(line, 3, ft_strlen(line) - 4, &game->gc);
+	else
+		return (0);
+	return (1);
+}
+
+static int	parse_color_line(char *line, t_game *game)
+{
 	int	floor_set;
 	int	ceiling_set;
 
-	i = 0;
 	floor_set = 0;
 	ceiling_set = 0;
+	if (!strncmp(line, "F ", 2) && ++floor_set == 1)
+		parse_color(line, &game->floor, game);
+	else if (!strncmp(line, "C ", 2) && ++ceiling_set == 1)
+		parse_color(line, &game->ceil, game);
+	else
+		return (0);
+	return (1);
+}
+
+char	*init_var(t_game *game, char *line, int fd)
+{
+	int	i;
+
+	i = 0;
 	while (line)
 	{
 		if (*line == '\n' && i < 6)
@@ -29,25 +61,7 @@ char	*init_var(t_game *game, char *line, int fd)
 			line = get_next_line(fd);
 			continue ;
 		}
-		if (check_dot(line))
-			return (line);
-		if (!strncmp(line, "NO ", 3) && !game->tex.no_path)
-			game->tex.no_path = ft_substr(line, 3, ft_strlen(line) - 4,
-					&game->gc);
-		else if (!strncmp(line, "SO ", 3) && !game->tex.so_path)
-			game->tex.so_path = ft_substr(line, 3, ft_strlen(line) - 4,
-					&game->gc);
-		else if (!strncmp(line, "WE ", 3) && !game->tex.we_path)
-			game->tex.we_path = ft_substr(line, 3, ft_strlen(line) - 4,
-					&game->gc);
-		else if (!strncmp(line, "EA ", 3) && !game->tex.ea_path)
-			game->tex.ea_path = ft_substr(line, 3, ft_strlen(line) - 4,
-					&game->gc);
-		else if (!strncmp(line, "F ", 2) && ++floor_set == 1)
-			parse_color(line, &game->floor, game);
-		else if (!strncmp(line, "C ", 2) && ++ceiling_set == 1)
-			parse_color(line, &game->ceil, game);
-		else
+		if (!parse_texture(line, game) && !parse_color_line(line, game))
 			return (line);
 		free(line);
 		line = get_next_line(fd);

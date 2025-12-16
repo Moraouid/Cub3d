@@ -3,69 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:10 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/14 22:29:11 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/16 01:24:29 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
+static char	*process_and_read_next(int fd, char *line, t_game *game)
+{
+	int		len;
+	char	*new_line;
+
+	game->map.map[game->map.height] = process_map_line(line, &len, game);
+	if (game->map.width < len)
+		game->map.width = len;
+	game->map.height++;
+	free(line);
+	new_line = get_next_line(fd);
+	return (new_line);
+}
+
 char	**read_map_lines(int fd, char *line, t_game *game)
 {
 	char	**temp_map;
-	int		i;
-	int		len;
 	int		capacity;
 
-	i = 0;
 	capacity = 10;
 	game->map.width = 0;
+	game->map.height = 0;
 	temp_map = gc_malloc(&game->gc, sizeof(char *) * capacity);
-	while (line)
+	while (line && !is_empty_line(line))
 	{
-		if (is_empty_line(line))
-			break ;
-		if (i >= capacity - 1)
-			temp_map = resize_map_array(temp_map, &capacity, i, game);
-		temp_map[i++] = process_map_line(line, &len, game);
-		if (game->map.width < len)
-			game->map.width = len;
-		free(line);
-		line = get_next_line(fd);
+		if (game->map.height >= capacity - 1)
+			temp_map = resize_map_array(temp_map, &capacity,
+					game->map.height, game);
+		game->map.map = temp_map;
+		line = process_and_read_next(fd, line, game);
 	}
 	free(line);
-	line  = get_next_line(fd);
-	if (line != NULL)
-	{
-		printf("Errooooor\n");
-		free(line);
-		my_exit(game);
-	}
-	temp_map[i] = NULL;
-	game->map.height = i;
+	line = get_next_line(fd);
+	check_remaining_lines(fd, line, game);
+	temp_map[game->map.height] = NULL;
 	return (temp_map);
-}
-
-void	normalize_map_line(char *dest, char *src, int max_len)
-{
-	int	j;
-	int	len;
-
-	len = ft_strlen(src);
-	j = 0;
-	while (j < len)
-	{
-		dest[j] = src[j];
-		j++;
-	}
-	while (j < max_len)
-	{
-		dest[j] = ' ';
-		j++;
-	}
-	dest[max_len] = '\0';
 }
 
 void	create_normalized_map(t_game *game, char **temp_map)
@@ -113,7 +95,7 @@ void	parse_file(int fd, t_game *game)
 	}
 	else
 	{
-		printf("Error: invalid path or less/more texture \n");
+		printf("Error: invalid path or less/more texture\n");
 		my_exit(game);
 	}
 }

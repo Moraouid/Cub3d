@@ -6,7 +6,7 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:13 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/13 00:23:09 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/16 01:22:47 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,48 @@ int	hight_map(int fd)
 	return (height);
 }
 
-int	check_dot(char *line)
+int	check_extension(char *filename, char *ext)
 {
 	char	*dot;
+	int		len;
+	int		ext_len;
 
-	dot = strrchr(line, '.');
-	if (!strncmp(line, "NO ", 3) || !strncmp(line, "SO ", 3) || !strncmp(line,
-			"WE ", 3) || !strncmp(line, "EA ", 3))
+	len = strlen(filename);
+	ext_len = strlen(ext);
+	if (len < ext_len)
+		return (0);
+	dot = strrchr(filename, '.');
+	if (!dot || strncmp(dot, ext, ext_len + 1) != 0)
+		return (0);
+	return (1);
+}
+
+void	check_remaining_lines(int fd, char *line, t_game *game)
+{
+	if (line != NULL)
 	{
-		if (!dot || strncmp(dot, ".xpm", 4) != 0)
-		{
-			write(2, "Error: Invalid map extension\n", 29);
-			return (1);
-		}
+		printf("Error: Invalid content after map\n");
+		free(line);
+		my_exit(game);
 	}
-	return (0);
+}
+
+void	normalize_map_line(char *dest, char *src, int max_len)
+{
+	int	j;
+	int	len;
+
+	len = ft_strlen(src);
+	j = 0;
+	while (j < len)
+	{
+		dest[j] = src[j];
+		j++;
+	}
+	while (j < max_len)
+	{
+		dest[j] = ' ';
+		j++;
+	}
+	dest[max_len] = '\0';
 }

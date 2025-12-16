@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/14 21:44:53 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/16 01:22:11 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,6 @@ void			hit_wall(t_game *game, t_intersect *inter);
 void			load_texture(t_game *game, t_teximg *tex, char *path);
 char			*init_var(t_game *game, char *line, int fd);
 void			init_game(t_game *game);
-int				check_dot(char *line);
 int				hight_map(int fd);
 void			gc_clean(t_gc **gc);
 void			parse_color(char *line, t_color *color, t_game *game);
@@ -215,4 +214,9 @@ char			**resize_map_array(char **temp_map, int *capacity,
 char			*process_map_line(char *line, int *len, t_game *game);
 int				is_empty_line(char *line);
 void			*ft_memset(void *s, int c, size_t n);
+void			validate_map(t_game *game);
+int				check_extension(char *filename, char *ext);
+void			check_remaining_lines(int fd, char *line, t_game *game);
+void			normalize_map_line(char *dest, char *src, int max_len);
+
 #endif

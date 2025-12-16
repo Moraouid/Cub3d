@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_colors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:07 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/14 03:20:09 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/16 01:16:52 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,29 @@ int	extract_color(char *color)
 		return (-1);
 }
 
+int	count_commas(char *str)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ',')
+			count++;
+		i++;
+	}
+	return (count);
+}
+
 void	parse_color(char *line, t_color *color, t_game *game)
 {
 	char	**rgb;
 	int		i;
 
 	i = 2;
-	if (!line)
+	if (!line || count_commas(&line[i]) != 2)
 	{
 		printf("Error_color1\n");
 		my_exit(game);
