@@ -6,7 +6,7 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/16 01:22:11 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/17 00:08:33 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ int				is_empty_line(char *line);
 void			*ft_memset(void *s, int c, size_t n);
 void			validate_map(t_game *game);
 int				check_extension(char *filename, char *ext);
-void			check_remaining_lines(int fd, char *line, t_game *game);
+void			check_remaining_lines(char *line, t_game *game);
 void			normalize_map_line(char *dest, char *src, int max_len);
 
 #endif

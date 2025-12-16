@@ -6,7 +6,7 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:11:59 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/16 01:17:41 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/17 00:23:25 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	parse_texture(char *line, t_game *game)
 {
-	if (check_extension(line + 3, ".xpm"))
+	if (check_extension(line, ".xpm"))
 	{
 		printf("Error: Texture file must have .xpm extension\n");
 		my_exit(game);

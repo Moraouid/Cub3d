@@ -6,7 +6,7 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:10 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/16 01:24:29 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/17 00:18:50 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**read_map_lines(int fd, char *line, t_game *game)
 	}
 	free(line);
 	line = get_next_line(fd);
-	check_remaining_lines(fd, line, game);
+	check_remaining_lines(line, game);
 	temp_map[game->map.height] = NULL;
 	return (temp_map);
 }

@@ -6,7 +6,7 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:13 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/16 01:22:47 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/17 00:22:42 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	check_extension(char *filename, char *ext)
 	int		len;
 	int		ext_len;
 
-	len = strlen(filename);
-	ext_len = strlen(ext);
+	len = ft_strlen(filename);
+	ext_len = ft_strlen(ext);
 	if (len < ext_len)
 		return (0);
 	dot = strrchr(filename, '.');
@@ -46,7 +46,7 @@ int	check_extension(char *filename, char *ext)
 	return (1);
 }
 
-void	check_remaining_lines(int fd, char *line, t_game *game)
+void	check_remaining_lines(char *line, t_game *game)
 {
 	if (line != NULL)
 	{
