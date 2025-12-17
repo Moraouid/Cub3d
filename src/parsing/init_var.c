@@ -6,7 +6,7 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:11:59 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/17 00:23:25 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/18 00:43:38 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,11 @@ static int	parse_texture(char *line, t_game *game)
 	return (1);
 }
 
-static int	parse_color_line(char *line, t_game *game)
+static int	parse_color_line(char *line, t_game *game, t_flags *flags)
 {
-	int	floor_set;
-	int	ceiling_set;
-
-	floor_set = 0;
-	ceiling_set = 0;
-	if (!strncmp(line, "F ", 2) && ++floor_set == 1)
+	if (!strncmp(line, "F ", 2) && ++flags->floor_set == 1)
 		parse_color(line, &game->floor, game);
-	else if (!strncmp(line, "C ", 2) && ++ceiling_set == 1)
+	else if (!strncmp(line, "C ", 2) && ++flags->ceiling_set == 1)
 		parse_color(line, &game->ceil, game);
 	else
 		return (0);
@@ -50,9 +45,12 @@ static int	parse_color_line(char *line, t_game *game)
 
 char	*init_var(t_game *game, char *line, int fd)
 {
-	int	i;
+	t_flags	flags;
+	int		i;
 
 	i = 0;
+	flags.floor_set = 0;
+	flags.ceiling_set = 0;
 	while (line)
 	{
 		if (*line == '\n' && i < 6)
@@ -61,7 +59,7 @@ char	*init_var(t_game *game, char *line, int fd)
 			line = get_next_line(fd);
 			continue ;
 		}
-		if (!parse_texture(line, game) && !parse_color_line(line, game))
+		if (!parse_texture(line, game) && !parse_color_line(line, game, &flags))
 			return (line);
 		free(line);
 		line = get_next_line(fd);

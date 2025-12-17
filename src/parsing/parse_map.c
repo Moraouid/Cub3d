@@ -6,7 +6,7 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:10 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/17 00:18:50 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/18 00:43:17 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	parse_file(int fd, t_game *game)
 	line = get_next_line(fd);
 	map_line = init_var(game, line, fd);
 	if (game->tex.no_path && game->tex.so_path && game->tex.we_path
-		&& game->tex.ea_path)
+		&& game->tex.ea_path && game->ceil.r != -1 && game->floor.r != -1)
 	{
 		if (map_line)
 			parse_map(game, fd, map_line);
@@ -95,7 +95,7 @@ void	parse_file(int fd, t_game *game)
 	}
 	else
 	{
-		printf("Error: invalid path or less/more texture\n");
+		printf("Error:\n");
 		my_exit(game);
 	}
 }

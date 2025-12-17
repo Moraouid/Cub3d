@@ -6,7 +6,7 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/17 00:08:33 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/18 00:21:25 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@
 # define RED 0x00FF0000
 # define BLACK 0X000000
 # define GRAY 0X808080
+
+typedef struct s_flags
+{
+	int			floor_set;
+	int			ceiling_set;
+}				t_flags;
 
 typedef struct s_gc
 {
