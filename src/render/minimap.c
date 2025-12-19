@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 23:23:02 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/19 13:19:46 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/19 16:47:20 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	render_mini_map(t_game *game)
 
 	i = -1;
 	game->sf = 0.2;
-	while (game->map.height * T_SIZE * game->sf  > WINDOW_H / 3)
+	while (game->map.height * T_SIZE * game->sf > WINDOW_H / 3)
 		game->sf -= 0.001;
 	while (game->map.map[++i])
 	{
@@ -95,14 +95,14 @@ void	render_mini_map(t_game *game)
 		{
 			c = game->map.map[i][j];
 			if (c == '1')
-				draw_square(game, game->sf * T_SIZE * j + 10, game->sf * T_SIZE * i
-					+ 10, GRAY);
+				draw_square(game, game->sf * T_SIZE * j + 10, game->sf * T_SIZE
+					* i + 10, GRAY);
 			else if (c == '0' || c == 'E' || c == 'S' || c == 'N' || c == 'W')
-				draw_square(game, game->sf * T_SIZE * j + 10, game->sf * T_SIZE * i
-					+ 10, WHITE);
+				draw_square(game, game->sf * T_SIZE * j + 10, game->sf * T_SIZE
+					* i + 10, WHITE);
 		}
 	}
 	draw_ray(game, game->player.angle, 30);
-	draw_circle(game, game->sf * game->player.x + 10, game->sf * game->player.y + 10,
-		2);
+	draw_circle(game, game->sf * game->player.x + 10, game->sf * game->player.y
+		+ 10, 2);
 }
