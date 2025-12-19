@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 23:57:29 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/14 03:21:21 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/19 11:43:43 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,19 @@ int	cant_move_forward_backward(t_game *game, char key)
 
 	if (key == 'w')
 	{
+		corner_of_player(game, game->player.angle, 1);
 		x = game->player.x + cos(game->player.angle) * SPEED;
-		if (!is_wall(game, x, game->player.y))
-		{
-			y = game->player.y + sin(game->player.angle) * SPEED;
-			if (!is_wall(game, game->player.x, y))
-				return (0);
-		}
+		y = game->player.y + sin(game->player.angle) * SPEED;
+		if (!check_wall(game, x, y))
+			return (0);
 	}
 	if (key == 's')
 	{
+		corner_of_player(game, game->player.angle, 0);
 		x = game->player.x - cos(game->player.angle) * SPEED;
-		if (!is_wall(game, x, game->player.y))
-		{
-			y = game->player.y - sin(game->player.angle) * SPEED;
-			if (!is_wall(game, game->player.x, y))
-				return (0);
-		}
+		y = game->player.y - sin(game->player.angle) * SPEED;
+		if (!check_wall(game, x, y))
+			return (0);
 	}
 	return (1);
 }
@@ -47,23 +43,19 @@ int	cant_move_sidewalk(t_game *game, char key)
 
 	if (key == 'a')
 	{
+		corner_of_player(game, game->player.angle - M_PI_2, 1);
 		x = game->player.x + cos(game->player.angle - M_PI_2) * SPEED;
-		if (!is_wall(game, x, game->player.y))
-		{
-			y = game->player.y + sin(game->player.angle - M_PI_2) * SPEED;
-			if (!is_wall(game, game->player.x, y))
-				return (0);
-		}
+		y = game->player.y + sin(game->player.angle - M_PI_2) * SPEED;
+		if (!check_wall(game, x, y))
+			return (0);
 	}
 	if (key == 'd')
 	{
+		corner_of_player(game, game->player.angle + M_PI_2, 1);
 		x = game->player.x + cos(game->player.angle + M_PI_2) * SPEED;
-		if (!is_wall(game, x, game->player.y))
-		{
-			y = game->player.y + sin(game->player.angle + M_PI_2) * SPEED;
-			if (!is_wall(game, game->player.x, y))
-				return (0);
-		}
+		y = game->player.y + sin(game->player.angle + M_PI_2) * SPEED;
+		if (!check_wall(game, x, y))
+			return (0);
 	}
 	return (1);
 }

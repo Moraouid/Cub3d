@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:13 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/17 00:22:42 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/19 10:40:02 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,6 @@ int	check_extension(char *filename, char *ext)
 	if (!dot || strncmp(dot, ext, ext_len + 1) != 0)
 		return (0);
 	return (1);
-}
-
-void	check_remaining_lines(char *line, t_game *game)
-{
-	if (line != NULL)
-	{
-		printf("Error: Invalid content after map\n");
-		free(line);
-		my_exit(game);
-	}
 }
 
 void	normalize_map_line(char *dest, char *src, int max_len)

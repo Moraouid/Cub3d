@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/18 00:21:25 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/19 13:17:49 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ typedef struct s_keymove
 
 typedef struct s_player
 {
+	int			corner_x;
+	int			corner_y;
 	float		x;
 	float		y;
 	float		angle;
@@ -171,6 +173,7 @@ typedef struct s_game
 	t_color		ceil;
 	t_player	player;
 	t_keymove	keymove;
+	float       sf;
 }				t_game;
 
 void			*gc_malloc(t_gc **gc, size_t size);
@@ -222,7 +225,10 @@ int				is_empty_line(char *line);
 void			*ft_memset(void *s, int c, size_t n);
 void			validate_map(t_game *game);
 int				check_extension(char *filename, char *ext);
-void			check_remaining_lines(char *line, t_game *game);
 void			normalize_map_line(char *dest, char *src, int max_len);
+void			corner_of_player(t_game *game, float angle, int flag);
+int				check_wall(t_game *game, float x, float y);
+int				ft_strncmp(char *s1, char *s2, size_t n);
+char			*ft_strrchr(char *s, int c);
 
 #endif

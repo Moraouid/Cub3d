@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:16 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/15 23:51:05 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/18 21:23:38 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	validate_map(t_game *game)
 {
 	if (the_zero_rule(game->map))
 	{
-		printf("Error map\n");
+		write(2, "Error: map\n", 12);
 		my_exit(game);
 	}
 }

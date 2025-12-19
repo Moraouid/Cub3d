@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:10 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/18 00:43:17 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/19 10:40:50 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,12 @@ char	**read_map_lines(int fd, char *line, t_game *game)
 	}
 	free(line);
 	line = get_next_line(fd);
-	check_remaining_lines(line, game);
+	if (line != NULL)
+	{
+		write(2, "Error: Invalid content after map\n", 34);
+		free(line);
+		my_exit(game);
+	}
 	temp_map[game->map.height] = NULL;
 	return (temp_map);
 }
@@ -89,13 +94,13 @@ void	parse_file(int fd, t_game *game)
 			parse_map(game, fd, map_line);
 		else
 		{
-			printf("Error: No map found\n");
+			write(2, "Error: No map found\n", 21);
 			my_exit(game);
 		}
 	}
 	else
 	{
-		printf("Error:\n");
+		write(2, "Error: ambegeuse\n", 18);
 		my_exit(game);
 	}
 }

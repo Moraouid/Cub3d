@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_colors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:07 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/16 01:16:52 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/19 10:39:43 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ void	parse_color(char *line, t_color *color, t_game *game)
 	i = 2;
 	if (!line || count_commas(&line[i]) != 2)
 	{
-		printf("Error_color1\n");
+		write(2, "Error: color\n", 14);
 		my_exit(game);
 	}
 	rgb = ft_split(&line[i], ',', game);
 	if (!rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
 	{
-		printf("Error_color2\n");
+		write(2, "Error: color\n", 14);
 		my_exit(game);
 	}
 	color->r = extract_color(rgb[0]);
@@ -62,7 +62,7 @@ void	parse_color(char *line, t_color *color, t_game *game)
 	color->b = extract_color(rgb[2]);
 	if (color->r == -1 || color->g == -1 || color->b == -1)
 	{
-		printf("Error_color3\n");
+		write(2, "Error: color\n", 14);
 		my_exit(game);
 	}
 }

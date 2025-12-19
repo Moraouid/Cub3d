@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 20:17:24 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/12 07:18:16 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/18 12:03:24 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	hit_wall(t_game *game, t_intersect *inter)
 
 void	calculate_distances(t_intersect *hori, t_intersect *vert, t_game *game)
 {
-	hori->dis = WINDOW_W;
-	vert->dis = WINDOW_H;
+	hori->dis = 1e30;
+	vert->dis = 1e30;
 	if (hori->hit)
 		hori->dis = hypot(hori->hit_x - game->player.x, hori->hit_y
 				- game->player.y);

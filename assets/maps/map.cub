@@ -1,11 +1,11 @@
 F 182,184,182
 C 0,0,0
 
-
 NO ./assets/textures/path_to_the_north_texture.xpm
 SO ./assets/textures/path_to_the_south_texture.xpm
 WE ./assets/textures/path_to_the_west_texture.xpm
 EA ./assets/textures/path_to_the_east_texture.xpm
+
 
 
                                            111111111
