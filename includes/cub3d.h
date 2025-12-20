@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/19 17:06:47 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/20 15:43:45 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ typedef struct s_game
 	t_teximg	north;
 	t_teximg	south;
 	t_teximg	east;
-	t_teximg	wast;
+	t_teximg	west;
 	t_texture	tex;
 	t_keymove	keymove;
 	float		sf;

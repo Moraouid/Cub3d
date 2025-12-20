@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:51:09 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/14 07:12:58 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/20 15:43:45 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	my_exit(t_game *game)
 			mlx_destroy_image(game->mlx.mlx, game->north.img);
 		if (game->east.img)
 			mlx_destroy_image(game->mlx.mlx, game->east.img);
-		if (game->wast.img)
-			mlx_destroy_image(game->mlx.mlx, game->wast.img);
+		if (game->west.img)
+			mlx_destroy_image(game->mlx.mlx, game->west.img);
 		if (game->img.img)
 			mlx_destroy_image(game->mlx.mlx, game->img.img);
 		if (game->mlx.win)

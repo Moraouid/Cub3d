@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:35:05 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/19 12:16:19 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/20 15:43:45 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	start_game(t_game *game)
 	load_texture(game, &game->south, game->tex.so_path);
 	load_texture(game, &game->north, game->tex.no_path);
 	load_texture(game, &game->east, game->tex.ea_path);
-	load_texture(game, &game->wast, game->tex.we_path);
+	load_texture(game, &game->west, game->tex.we_path);
 	set_player(game);
 	mlx_hook(game->mlx.win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->mlx.win, 3, 1L << 1, release_key_press, game);

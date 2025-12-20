@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 06:13:54 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/19 20:37:13 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/20 15:43:45 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	choose_texture(t_game *game, t_ray *ray, t_teximg *tex, t_render *rend)
 			*tex = game->east;
 		else
 		{
-			*tex = game->wast;
+			*tex = game->west;
 			rend->tex_flag = 1;
 		}
 		rend->h_offset = fmod(ray->wall_hit_y, T_SIZE);
