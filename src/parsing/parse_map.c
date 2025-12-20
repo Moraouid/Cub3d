@@ -6,23 +6,22 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:10 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/19 10:40:50 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/20 22:34:57 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-static char	*process_and_read_next(int fd, char *line, t_game *game)
+static char	*process_and_read_next(int fd, char *line, t_game *game, int *flag)
 {
 	int		len;
 	char	*new_line;
 
-	game->map.map[game->map.height] = process_map_line(line, &len, game);
+	game->map.map[game->map.height] = process_map_line(line, &len, game, flag);
 	if (game->map.width < len)
 		game->map.width = len;
 	game->map.height++;
-	free(line);
-	new_line = get_next_line(fd);
+	new_line = get_next_line(fd, game);
 	return (new_line);
 }
 
@@ -30,7 +29,9 @@ char	**read_map_lines(int fd, char *line, t_game *game)
 {
 	char	**temp_map;
 	int		capacity;
+	int flag;
 
+	flag = 0;
 	capacity = 10;
 	game->map.width = 0;
 	game->map.height = 0;
@@ -38,17 +39,15 @@ char	**read_map_lines(int fd, char *line, t_game *game)
 	while (line && !is_empty_line(line))
 	{
 		if (game->map.height >= capacity - 1)
-			temp_map = resize_map_array(temp_map, &capacity,
-					game->map.height, game);
+			temp_map = resize_map_array(temp_map, &capacity, game->map.height,
+					game);
 		game->map.map = temp_map;
-		line = process_and_read_next(fd, line, game);
+		line = process_and_read_next(fd, line, game, &flag);
 	}
-	free(line);
-	line = get_next_line(fd);
-	if (line != NULL)
+	line = get_next_line(fd, game);
+	if (line != NULL || flag != 1)
 	{
 		write(2, "Error: Invalid content after map\n", 34);
-		free(line);
 		my_exit(game);
 	}
 	temp_map[game->map.height] = NULL;
@@ -73,10 +72,30 @@ void	create_normalized_map(t_game *game, char **temp_map)
 
 void	parse_map(t_game *game, int fd, char *line)
 {
+	int i;
 	char	**temp_map;
 
+	i = 0;
 	line = skip_empty_lines(fd, line, game);
+	while (line[i])
+	{
+		if (line[i] != '1' && line[i] != ' ' && line[i] != '\n')
+		{
+			write(2, "ERROR\n", 6);
+			my_exit(game);
+		}	
+		i++;
+	}
 	temp_map = read_map_lines(fd, line, game);
+	i = -1;
+	while (temp_map[game->map.height - 1][++i])
+	{
+		if (temp_map[game->map.height - 1][i] != '1' && temp_map[game->map.height - 1][i] != ' ' && temp_map[game->map.height - 1][i++] != '\n')
+		{
+			write(2, "ERROR\n", 6);
+			my_exit(game);
+		}	
+	}
 	create_normalized_map(game, temp_map);
 }
 
@@ -85,7 +104,7 @@ void	parse_file(int fd, t_game *game)
 	char	*line;
 	char	*map_line;
 
-	line = get_next_line(fd);
+	line = get_next_line(fd, game);
 	map_line = init_var(game, line, fd);
 	if (game->tex.no_path && game->tex.so_path && game->tex.we_path
 		&& game->tex.ea_path && game->ceil.r != -1 && game->floor.r != -1)

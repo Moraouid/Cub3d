@@ -6,29 +6,11 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:13 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/19 10:40:02 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/20 18:57:57 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-int	hight_map(int fd)
-{
-	char	*line;
-	int		height;
-
-	height = 0;
-	line = get_next_line(fd);
-	while (line)
-	{
-		height++;
-		free(line);
-		line = get_next_line(fd);
-	}
-	free(line);
-	close(fd);
-	return (height);
-}
 
 int	check_extension(char *filename, char *ext)
 {

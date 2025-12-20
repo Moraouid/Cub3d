@@ -6,13 +6,13 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:20:21 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/14 07:19:38 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/20 18:48:27 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, t_game *game)
 {
 	int		i;
 	int		j;
@@ -24,7 +24,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	j = 0;
 	len_s1 = ft_strlen_gnl(s1);
 	len_s2 = ft_strlen_gnl(s2);
-	res = (char *)malloc(len_s1 + len_s2 + 1);
+	res = (char *)gc_malloc(&game->gc, len_s1 + len_s2 + 1);
 	if (!res)
 		return (0);
 	while (s1[i])
@@ -35,7 +35,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[j])
 		res[i++] = s2[j++];
 	res[i] = '\0';
-	free(s1);
 	return (res);
 }
 
@@ -67,7 +66,7 @@ size_t	ft_strlen_gnl(const char *s)
 	return (i);
 }
 
-char	*ft_substr_gnl(char const *s, unsigned int start, size_t len)
+char	*ft_substr_gnl(char const *s, unsigned int start, size_t len, t_game *game)
 {
 	char	*res;
 	size_t	i;
@@ -79,7 +78,7 @@ char	*ft_substr_gnl(char const *s, unsigned int start, size_t len)
 	len_a = ft_strlen_gnl(s) - start;
 	if (len > len_a)
 		len = len_a;
-	res = (char *)malloc(len + 1);
+	res = (char *)gc_malloc(&game->gc, len + 1);
 	if (!res)
 		return (NULL);
 	while (s[start] && i < len)
@@ -88,15 +87,17 @@ char	*ft_substr_gnl(char const *s, unsigned int start, size_t len)
 	return (res);
 }
 
-char	*ft_strdup_gnl(const char *src)
+char	*ft_strdup_gnl(const char *src, t_game *game)
 {
 	char	*str;
 	int		s;
 	int		i;
 
-	s = ft_strlen_gnl(src);
-	str = malloc(s + 1);
 	if (!src)
+		return (NULL);
+	s = ft_strlen_gnl(src);
+	str = gc_malloc(&game->gc, s + 1);
+	if (!str)
 		return (NULL);
 	i = 0;
 	while (i < s)

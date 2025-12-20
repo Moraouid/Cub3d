@@ -6,15 +6,14 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:16 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/18 21:23:38 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/20 19:19:36 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-int	is_chars_valid(char *line)
+int	is_chars_valid(char *line, int *flag)
 {
-	static int	flag;
 	int			i;
 
 	i = 0;
@@ -26,9 +25,9 @@ int	is_chars_valid(char *line)
 		if (line[i] == 'N' || line[i] == 'S' || line[i] == 'E'
 			|| line[i] == 'W')
 		{
-			if (flag)
+			if (*flag)
 				return (0);
-			flag = 1;
+			*flag = 1;
 		}
 		i++;
 	}
@@ -46,7 +45,7 @@ int	the_zero_rule(t_map map)
 		y = 0;
 		while (map.map[x][y])
 		{
-			if (map.map[x][y] == '0' && (map.map[x][y - 1] == ' '
+			if ((map.map[x][y] == '0' || map.map[x][y] == 'N')&& (map.map[x][y - 1] == ' '
 					|| map.map[x][y + 1] == ' ' || map.map[x - 1][y] == ' '
 					|| map.map[x + 1][y] == ' ' || map.map[x][y + 1] == '\0'))
 				return (1);

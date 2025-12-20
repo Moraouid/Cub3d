@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 23:14:00 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/15 23:57:26 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/20 21:40:31 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ int	main(int ac, char **av)
 		exit(1);
 	}
 	game = malloc(sizeof(t_game));
-	init_game(game);
+	ft_memset(game, 0, sizeof(t_game));
+	ft_memset(&game->ceil, -1, sizeof(t_color));
+	ft_memset(&game->floor, -1, sizeof(t_color));
 	check_extension(av[1], ".cub");
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
