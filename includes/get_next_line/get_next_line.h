@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:20:29 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/20 18:54:04 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:04:20 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "../cub3d.h"
 # include <stdlib.h>
 # include <unistd.h>
+
+typedef struct s_game	t_game;
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1

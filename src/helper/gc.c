@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:51:09 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/20 18:58:51 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:04:54 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	gc_clean(t_gc **gc)
 	while (current)
 	{
 		next = current->next;
-		if(current->ptr)
+		if (current->ptr)
 			free(current->ptr);
 		free(current);
 		current = next;

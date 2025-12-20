@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:20:21 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/20 18:48:27 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:04:42 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ size_t	ft_strlen_gnl(const char *s)
 	return (i);
 }
 
-char	*ft_substr_gnl(char const *s, unsigned int start, size_t len, t_game *game)
+char	*ft_substr_gnl(char const *s, unsigned int start, size_t len,
+		t_game *game)
 {
 	char	*res;
 	size_t	i;

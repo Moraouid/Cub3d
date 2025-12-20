@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 06:28:45 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/20 22:24:15 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:04:59 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,10 @@ char	**resize_map_array(char **temp_map, int *capacity, int old_capacity,
 char	*process_map_line(char *line, int *len, t_game *game, int *flag)
 {
 	char	*temp;
+
 	*len = ft_strlen(line);
 	if (line[*len - 1] == '\n')
-		(*len)--;		
+		(*len)--;
 	temp = ft_substr(line, 0, *len, &game->gc);
 	if (!is_chars_valid(temp, flag))
 	{

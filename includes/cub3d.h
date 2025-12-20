@@ -6,14 +6,12 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/20 21:40:21 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:04:35 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
-
-typedef struct s_game t_game;
 
 # include "./get_next_line/get_next_line.h"
 # include "/usr/include/minilibx-linux/mlx.h"
@@ -197,7 +195,8 @@ int				is_chars_valid(char *line, int *flag);
 int				check_extension(char *filename, char *ext);
 char			*init_var(t_game *game, char *line, int fd);
 char			*skip_empty_lines(int fd, char *line, t_game *game);
-char			*process_map_line(char *line, int *len, t_game *game, int *flag);
+char			*process_map_line(char *line, int *len, t_game *game,
+					int *flag);
 char			**resize_map_array(char **temp_map, int *capacity,
 					int old_capacity, t_game *game);
 void			validate_map(t_game *game);

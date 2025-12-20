@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:10 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/20 22:34:57 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:42:53 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	**read_map_lines(int fd, char *line, t_game *game)
 {
 	char	**temp_map;
 	int		capacity;
-	int flag;
+	int		flag;
 
 	flag = 0;
 	capacity = 10;
@@ -72,31 +72,31 @@ void	create_normalized_map(t_game *game, char **temp_map)
 
 void	parse_map(t_game *game, int fd, char *line)
 {
-	int i;
-	char	**temp_map;
+	int		i;
+	char	**t_map;
 
-	i = 0;
+	i = -1;
 	line = skip_empty_lines(fd, line, game);
-	while (line[i])
+	while (line[++i])
 	{
 		if (line[i] != '1' && line[i] != ' ' && line[i] != '\n')
 		{
 			write(2, "ERROR\n", 6);
 			my_exit(game);
-		}	
-		i++;
+		}
 	}
-	temp_map = read_map_lines(fd, line, game);
+	t_map = read_map_lines(fd, line, game);
 	i = -1;
-	while (temp_map[game->map.height - 1][++i])
+	while (t_map[game->map.height - 1][++i])
 	{
-		if (temp_map[game->map.height - 1][i] != '1' && temp_map[game->map.height - 1][i] != ' ' && temp_map[game->map.height - 1][i++] != '\n')
+		if (t_map[game->map.height - 1][i] != '1' && t_map[game->map.height
+			- 1][i] != ' ' && t_map[game->map.height - 1][i++] != '\n')
 		{
 			write(2, "ERROR\n", 6);
 			my_exit(game);
-		}	
+		}
 	}
-	create_normalized_map(game, temp_map);
+	create_normalized_map(game, t_map);
 }
 
 void	parse_file(int fd, t_game *game)
