@@ -6,7 +6,7 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 18:21:14 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/21 18:20:58 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/22 03:01:49 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	load_texture(t_game *game, t_teximg *tex, char *path)
 {
 	tex->img = mlx_xpm_file_to_image(game->mlx.mlx, path, &tex->width,
 			&tex->height);
-	printf("path:- %s\n", path);
 	if (!tex->img)
 	{
 		write(1, "Error:\nfailed loading texture\n", 30);

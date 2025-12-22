@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:51:57 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/11/13 19:51:57 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/22 03:02:58 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*ft_strdup(char *s, t_gc **gc)
 		dup[i] = s[i];
 		i++;
 	}
+	if(dup[i - 1] == '\n')
+		i--;
 	dup[i] = '\0';
 	return (dup);
 }
