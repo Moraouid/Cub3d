@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:10 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/20 23:42:53 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/22 20:07:21 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	parse_file(int fd, t_game *game)
 	}
 	else
 	{
-		write(2, "Error: ambegeuse\n", 18);
+		write(2, "Error:\nError in file\n", 21);
 		my_exit(game);
 	}
 }

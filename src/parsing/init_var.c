@@ -6,7 +6,7 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:11:59 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/22 03:25:46 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/22 20:05:37 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,6 @@ static char	**skip_spaces(char *line, t_game *game)
 
 static int	parse_texture(t_game *game, char **tex)
 {
-	if (check_extension(tex[1], ".xpm"))
-	{
-		write(2, "Error: Texture file must have .xpm extension\n", 46);
-		my_exit(game);
-	}
 	if (!ft_strncmp(tex[0], "NO", 3) && !game->tex.no_path)
 		game->tex.no_path = ft_strdup(tex[1], &game->gc);
 	else if (!ft_strncmp(tex[0], "SO", 3) && !game->tex.so_path)
@@ -66,6 +61,8 @@ char	*init_var(t_game *game, char *line, int fd)
 			continue ;
 		}
 		tex = skip_spaces(line, game);
+		if(tex[2] != NULL && tex[2][0] != '\n')
+			return line;
 		if (!parse_texture(game, tex) && !parse_color_line(game, &flags, tex))
 			return (line);
 		line = get_next_line(fd, game);
