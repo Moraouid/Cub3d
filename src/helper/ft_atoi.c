@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 22:46:51 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/14 03:27:16 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/22 22:07:38 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@ int	ft_atoi(char *nptr, int *error)
 
 	i = 0;
 	n = 0;
+	*error = 0;
 	while ((nptr[i] >= '\t' && nptr[i] <= '\r') || nptr[i] == ' ')
 		i++;
+	if(nptr[i] == '\0' || nptr[i] == '\n')
+		*error = 1;
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		n = n * 10 + (nptr[i] - '0');
@@ -30,7 +33,5 @@ int	ft_atoi(char *nptr, int *error)
 		i++;
 	if (nptr[i] != '\0')
 		*error = 1;
-	else
-		*error = 0;
 	return (n);
 }

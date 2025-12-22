@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 06:28:45 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/20 23:04:59 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/22 21:13:32 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*skip_empty_lines(int fd, char *line, t_game *game)
 	}
 	if (!line)
 	{
-		write(2, "Error: Empty map\n", 17);
+		write(2, "Error:\nEmpty map\n", 17);
 		my_exit(game);
 	}
 	return (line);
@@ -60,7 +60,7 @@ char	*process_map_line(char *line, int *len, t_game *game, int *flag)
 	temp = ft_substr(line, 0, *len, &game->gc);
 	if (!is_chars_valid(temp, flag))
 	{
-		write(2, "Error: Invalid character in map\n", 33);
+		write(2, "Error:\nInvalid character in map\n", 33);
 		my_exit(game);
 	}
 	return (temp);

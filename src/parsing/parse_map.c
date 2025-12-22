@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:10 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/22 20:07:21 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/22 21:14:41 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	**read_map_lines(int fd, char *line, t_game *game)
 	line = get_next_line(fd, game);
 	if (line != NULL || flag != 1)
 	{
-		write(2, "Error: Invalid content after map\n", 34);
+		write(2, "Error:\nInvalid content after map\n", 34);
 		my_exit(game);
 	}
 	temp_map[game->map.height] = NULL;
@@ -81,7 +81,7 @@ void	parse_map(t_game *game, int fd, char *line)
 	{
 		if (line[i] != '1' && line[i] != ' ' && line[i] != '\n')
 		{
-			write(2, "ERROR\n", 6);
+			write(2, "ERROR\ninvalid map\n", 19);
 			my_exit(game);
 		}
 	}
@@ -92,7 +92,7 @@ void	parse_map(t_game *game, int fd, char *line)
 		if (t_map[game->map.height - 1][i] != '1' && t_map[game->map.height
 			- 1][i] != ' ' && t_map[game->map.height - 1][i++] != '\n')
 		{
-			write(2, "ERROR\n", 6);
+			write(2, "ERROR\ninvalid map\n", 19);
 			my_exit(game);
 		}
 	}
@@ -113,7 +113,7 @@ void	parse_file(int fd, t_game *game)
 			parse_map(game, fd, map_line);
 		else
 		{
-			write(2, "Error: No map found\n", 21);
+			write(2, "Error:\nNo map found\n", 21);
 			my_exit(game);
 		}
 	}

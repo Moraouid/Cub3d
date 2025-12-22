@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:07 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/22 16:47:46 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/22 21:14:30 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ void	parse_color(char *line, t_color *color, t_game *game)
 
 	if (!line || count_commas(line) != 2)
 	{
-		write(2, "Error: color1\n", 14);
+		write(2, "Error:\ncolor\n", 13);
 		my_exit(game);
 	}
 	rgb = ft_split(line, ',', game);
 	if (!rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
 	{
-		write(2, "Error: color2\n", 14);
+		write(2, "Error:\ncolor\n", 13);
 		my_exit(game);
 	}
 	color->r = extract_color(rgb[0]);
@@ -60,7 +60,7 @@ void	parse_color(char *line, t_color *color, t_game *game)
 	color->b = extract_color(rgb[2]);
 	if (color->r == -1 || color->g == -1 || color->b == -1)
 	{
-		write(2, "Error: color3\n", 14);
+		write(2, "Error:\ncolor\n", 13);
 		my_exit(game);
 	}
 }

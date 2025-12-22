@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 23:14:00 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/20 21:40:31 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/22 21:12:27 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 	{
-		write(2, "Error: Usage ./cub3d path_map.cub\n", 35);
+		write(2, "Error:\nUsage ./cub3d path_map.cub\n", 35);
 		exit(1);
 	}
 	game = malloc(sizeof(t_game));
@@ -30,7 +30,7 @@ int	main(int ac, char **av)
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 	{
-		write(2, "Error: map mot found\n", 21);
+		write(2, "Error:\nmap mot found\n", 21);
 		my_exit(game);
 	}
 	parse_file(fd, game);

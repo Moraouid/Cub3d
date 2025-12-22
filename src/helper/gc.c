@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:51:09 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/20 23:04:54 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/22 21:12:39 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	gc_add(t_gc **gc, void *ptr)
 	node = malloc(sizeof(t_gc));
 	if (!node)
 	{
-		write(2, "Error: gc_add malloc failed\n", 28);
+		write(2, "Error:\ngc_add malloc failed\n", 28);
 		gc_clean(gc);
 		exit(1);
 	}
@@ -79,7 +79,7 @@ void	*gc_malloc(t_gc **gc, size_t size)
 	ptr = malloc(size);
 	if (!ptr)
 	{
-		write(2, "Error: malloc failed\n", 21);
+		write(2, "Error:\nmalloc failed\n", 21);
 		gc_clean(gc);
 		exit(1);
 	}

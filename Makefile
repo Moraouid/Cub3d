@@ -1,6 +1,6 @@
 NAME = cub3D
 CC = cc -g
-MLX = -L/usr/include/minilibx-linux -lmlx -lXext -lX11 -lm
+MLX = -L/usr/include/minilibx-linux -lmlx -lXext -lX11 -lm 
 CFLAGS = -Wall -Wextra -Werror
 SRCS = src/cub3d.c src/start_game.c src/parsing/init_var.c src/parsing/parse_colors.c src/helper/ft_strrchr.c \
 		src/parsing/parse_map.c src/parsing/utils.c src/parsing/validate_map.c src/helper/ft_atoi.c  src/helper/ft_strncmp.c \

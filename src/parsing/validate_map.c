@@ -6,7 +6,7 @@
 /*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:16 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/20 23:05:04 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/22 21:14:53 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	validate_map(t_game *game)
 {
 	if (the_zero_rule(game->map))
 	{
-		write(2, "Error: map\n", 12);
+		write(2, "Error:\nmap\n", 12);
 		my_exit(game);
 	}
 }
