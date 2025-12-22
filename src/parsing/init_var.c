@@ -6,7 +6,7 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:11:59 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/22 20:05:37 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/22 20:08:04 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ char	*init_var(t_game *game, char *line, int fd)
 			continue ;
 		}
 		tex = skip_spaces(line, game);
-		if(tex[2] != NULL && tex[2][0] != '\n')
-			return line;
+		if (tex[2] != NULL && tex[2][0] != '\n')
+			return (line);
 		if (!parse_texture(game, tex) && !parse_color_line(game, &flags, tex))
 			return (line);
 		line = get_next_line(fd, game);
