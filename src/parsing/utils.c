@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:13 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/22 05:14:36 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/22 16:44:07 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	check_extension(char *filename, char *ext)
 	ext_len = ft_strlen(ext);
 	if (len < ext_len)
 		return (0);
-	dot = strrchr(filename, '.');//!
-	if (!dot || strncmp(dot, ext, ext_len + 1) != 0)
+	dot = ft_strrchr(filename, '.');
+	if (!dot || ft_strncmp(dot, ext, ext_len + 1) != 0)
 		return (0);
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_colors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:07 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/21 18:17:45 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/22 16:47:46 by sel-abbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	count_commas(char *str)
 void	parse_color(char *line, t_color *color, t_game *game)
 {
 	char	**rgb;
-	
+
 	if (!line || count_commas(line) != 2)
 	{
 		write(2, "Error: color1\n", 14);
