@@ -6,7 +6,7 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:10 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/23 02:51:57 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/23 16:41:00 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char	**read_map_lines(int fd, char *line, t_game *game)
 		game->map.map = temp_map;
 		line = process_and_read_next(fd, line, game, &flag);
 	}
-	line = get_next_line(fd, game);
 	if (line != NULL || flag != 1)
 		error_and_exit(game, "Invalid map");
 	temp_map[game->map.height] = NULL;
