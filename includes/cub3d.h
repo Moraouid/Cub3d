@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 23:28:33 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/22 21:49:13 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/22 23:46:42 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ char			*ft_substr(char *s, unsigned int start, size_t len, t_gc **gc);
 void			gc_clean(t_gc **gc);
 void			*gc_malloc(t_gc **gc, size_t size);
 void			*ft_memset(void *s, int c, size_t n);
+void			error_and_exit(t_game *game, const char *msg);
 
 /*--------------------------------parsing------------------------------------*/
 int				the_zero_rule(t_map map);
@@ -203,6 +204,7 @@ void			validate_map(t_game *game);
 void			parse_file(int fd, t_game *game);
 void			parse_color(char *line, t_color *color, t_game *game);
 void			normalize_map_line(char *dest, char *src, int max_len);
+void			error_and_exit(t_game *game, const char *msg);
 
 /*-----------------------------------mlx-------------------------------------*/
 int				release_key_press(int key, t_game *game);

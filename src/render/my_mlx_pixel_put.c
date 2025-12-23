@@ -6,7 +6,7 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 18:21:14 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/22 03:01:49 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/22 23:42:40 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ void	load_texture(t_game *game, t_teximg *tex, char *path)
 			&tex->height);
 	if (!tex->img)
 	{
-		write(1, "Error:\nfailed loading texture\n", 30);
-		my_exit(game);
+		error_and_exit(game, "failed loading texture");
 	}
 	tex->addr = mlx_get_data_addr(tex->img, &tex->bits_per_pixel,
 			&tex->line_len, &tex->endian);

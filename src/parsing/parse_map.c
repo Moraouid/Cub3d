@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:10 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/22 21:14:41 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/22 23:45:11 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,7 @@ char	**read_map_lines(int fd, char *line, t_game *game)
 	}
 	line = get_next_line(fd, game);
 	if (line != NULL || flag != 1)
-	{
-		write(2, "Error:\nInvalid content after map\n", 34);
-		my_exit(game);
-	}
+		error_and_exit(game, "Invalid map");
 	temp_map[game->map.height] = NULL;
 	return (temp_map);
 }
@@ -80,10 +77,7 @@ void	parse_map(t_game *game, int fd, char *line)
 	while (line[++i])
 	{
 		if (line[i] != '1' && line[i] != ' ' && line[i] != '\n')
-		{
-			write(2, "ERROR\ninvalid map\n", 19);
-			my_exit(game);
-		}
+			error_and_exit(game, "Invalid map");
 	}
 	t_map = read_map_lines(fd, line, game);
 	i = -1;
@@ -91,10 +85,7 @@ void	parse_map(t_game *game, int fd, char *line)
 	{
 		if (t_map[game->map.height - 1][i] != '1' && t_map[game->map.height
 			- 1][i] != ' ' && t_map[game->map.height - 1][i++] != '\n')
-		{
-			write(2, "ERROR\ninvalid map\n", 19);
-			my_exit(game);
-		}
+			error_and_exit(game, "Invalid map");
 	}
 	create_normalized_map(game, t_map);
 }
@@ -112,14 +103,8 @@ void	parse_file(int fd, t_game *game)
 		if (map_line)
 			parse_map(game, fd, map_line);
 		else
-		{
-			write(2, "Error:\nNo map found\n", 21);
-			my_exit(game);
-		}
+			error_and_exit(game, "Map not found");
 	}
 	else
-	{
-		write(2, "Error:\nError in file\n", 21);
-		my_exit(game);
-	}
+		error_and_exit(game, "Invalid or incomplete map parameters");
 }

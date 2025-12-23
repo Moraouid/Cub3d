@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_helper.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 06:28:45 by sel-abbo          #+#    #+#             */
-/*   Updated: 2025/12/22 21:13:32 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/22 23:47:31 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ char	*skip_empty_lines(int fd, char *line, t_game *game)
 		line = get_next_line(fd, game);
 	}
 	if (!line)
-	{
-		write(2, "Error:\nEmpty map\n", 17);
-		my_exit(game);
-	}
+		error_and_exit(game, "Invalid map");
 	return (line);
 }
 
@@ -59,9 +56,6 @@ char	*process_map_line(char *line, int *len, t_game *game, int *flag)
 		(*len)--;
 	temp = ft_substr(line, 0, *len, &game->gc);
 	if (!is_chars_valid(temp, flag))
-	{
-		write(2, "Error:\nInvalid character in map\n", 33);
-		my_exit(game);
-	}
+		error_and_exit(game, "Invalid map");
 	return (temp);
 }

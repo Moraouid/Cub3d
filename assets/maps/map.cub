@@ -1,11 +1,11 @@
-F   182,21,1   
-C  0,0,30 
+C  0,0,30  
+F   182,21,1
 
 
-               NO            ./assets/textures/the_north_texture.xpm
-SO ./assets/textures/the_south_texture.xpm
-WE ./assets/textures/the_west_texture.xpm
-EA  ./assets/textures/the_east_texture.xpm
+NO ./assets/textures/the_north_texture.xpm      
+SO ./assets/textures/the_south_texture.xpm 
+WE ./assets/textures/the_west_texture.xpm 
+EA ./assets/textures/the_east_texture.xpm 
 
 
 

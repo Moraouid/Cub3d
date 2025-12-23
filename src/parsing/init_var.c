@@ -6,19 +6,11 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:11:59 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/22 20:08:04 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/23 01:42:31 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-static char	**skip_spaces(char *line, t_game *game)
-{
-	char	**tex;
-
-	tex = ft_split(line, ' ', game);
-	return (tex);
-}
 
 static int	parse_texture(t_game *game, char **tex)
 {
@@ -50,6 +42,7 @@ char	*init_var(t_game *game, char *line, int fd)
 {
 	t_flags	flags;
 	char	**tex;
+	int		i;
 
 	flags.floor_set = 0;
 	flags.ceiling_set = 0;
@@ -60,8 +53,11 @@ char	*init_var(t_game *game, char *line, int fd)
 			line = get_next_line(fd, game);
 			continue ;
 		}
-		tex = skip_spaces(line, game);
-		if (tex[2] != NULL && tex[2][0] != '\n')
+		tex = ft_split(line, ' ', game);
+		i = 0;
+		while (tex[i])
+			i++;
+		if (i >= 3 && tex[2][0] != '\n')
 			return (line);
 		if (!parse_texture(game, tex) && !parse_color_line(game, &flags, tex))
 			return (line);

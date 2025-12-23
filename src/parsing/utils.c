@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:13 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/22 16:44:07 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/22 23:42:40 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+
+void	error_and_exit(t_game *game, const char *msg)
+{
+	if (msg)
+	{
+		write(2, "Error\n", 6);
+		write(2, msg, ft_strlen((char *)msg));
+		write(2, "\n", 1);
+	}
+	else
+	{
+		write(2, "Error\n", 6);
+	}
+	my_exit(game);
+}
 
 int	check_extension(char *filename, char *ext)
 {

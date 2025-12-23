@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-abbo <sel-abbo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 22:46:51 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/22 22:07:38 by sel-abbo         ###   ########.fr       */
+/*   Updated: 2025/12/23 01:43:39 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_atoi(char *nptr, int *error)
 	*error = 0;
 	while ((nptr[i] >= '\t' && nptr[i] <= '\r') || nptr[i] == ' ')
 		i++;
-	if(nptr[i] == '\0' || nptr[i] == '\n')
+	if (nptr[i] == '\0' || nptr[i] == '\n')
 		*error = 1;
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
