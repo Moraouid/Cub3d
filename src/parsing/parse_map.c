@@ -6,7 +6,7 @@
 /*   By: ozemrani <ozemrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 00:12:10 by ozemrani          #+#    #+#             */
-/*   Updated: 2025/12/22 23:45:11 by ozemrani         ###   ########.fr       */
+/*   Updated: 2025/12/23 02:51:57 by ozemrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void	parse_file(int fd, t_game *game)
 	char	*map_line;
 
 	line = get_next_line(fd, game);
+	while (line && *line && (*line == ' '))
+		(*line)++;
 	map_line = init_var(game, line, fd);
 	if (game->tex.no_path && game->tex.so_path && game->tex.we_path
 		&& game->tex.ea_path && game->ceil.r != -1 && game->floor.r != -1)
