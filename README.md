@@ -137,7 +137,7 @@ This project is part of the 42 School curriculum.
 
 ## 👥 Contributors
 
-- [Moraouid](https://github.com/Moraouid)
+- [Moraouid](https://github.com/Moraouid) && [3tmvne](https://github.com/3tmvne)
 
 ## 🙏 Acknowledgments
 
